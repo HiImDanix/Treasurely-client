@@ -2,24 +2,9 @@
   text-align: center;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
+.login-page {
   background-color: #282c34;
   min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
   font-size: calc(10px + 2vmin);
   color: white;
 }
@@ -28,11 +13,50 @@
   color: #61dafb;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.login-card button {
+    background-color: #ff6004;
+    color: white;
+    border: none;
+    padding: 10px;
+    border-radius: 3px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    width: 250px;
 }
+
+.login-card input {
+    width: 242px;
+    height: 30px;
+    border-radius: 3px;
+    margin-bottom: 5px;
+    text-align: center;
+    font-size: 16px;
+    font-weight: bold;
+    border: 2px solid #D3D3D3;
+}
+
+.login-card {
+  margin: 0 auto;
+  max-width: 250px;
+  padding: 10px 15px 15px 15px;
+  background-color: #ffffff;
+  border-radius: 5px;
+
+}
+
+.login-page .logo {
+    margin-top:0;
+    font-family: 'Righteous';
+    letter-spacing: 2px;
+}
+
+.login-page {
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+}
+
+
+
