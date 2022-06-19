@@ -16,13 +16,16 @@ const NameEnter = (props) => {
 			headers: {
 				'Content-Type': 'application/json'
 			},
-			body: JSON.stringify({ name: name, code: props.data.code })
 		}
 
-		await fetch(gamesURL + "/" + props.data.id + "/join?", 
+		await fetch(`${gamesURL}/${props.data.id}/join?
+			${new URLSearchParams({name: name, code: props.data.code})}`,
 			requestOptions)
 			.then(response => {
-				console.log(response)
+				console.log(response);
+				if (response.ok) {
+					props.confirm(name);
+				}
 			}).catch(error => {
 				console.log(error);
 			})
