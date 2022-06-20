@@ -38,7 +38,6 @@ const NameEnter = (props) => {
 			<div className="name-card">
 				<FormControl
 					className="name-input"
-					type="text" 
 					value={name}
 					onChange={handleChange}
 					placeholder={"Nickname"}
