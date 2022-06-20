@@ -33,7 +33,7 @@ const NameEnter = (props) => {
 
 	return (
 		<div className="name-enter">
-			<h2 className="name-title">Enter your name</h2>
+			<h1 className="name-title">What shall we call you?</h1>
 
 			<div className="name-card">
 				<FormControl
@@ -41,12 +41,13 @@ const NameEnter = (props) => {
 					type="text" 
 					value={name}
 					onChange={handleChange}
+					placeholder={"Nickname"}
 				/>
 				<Button 
 					className="name-button" 
 					onClick={confirm}
 				>
-					Confirm	
+					Let's go!
 				</Button>
 
 			</div>

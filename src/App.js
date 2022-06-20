@@ -10,7 +10,7 @@ function App() {
 			<BrowserRouter>
 				<Routes>
 					<Route path="/" element={<Login />} />
-					<Route path=":id" element={<Game />} />
+					<Route path="/play" element={<Game />} />
 				</Routes>
 			</BrowserRouter>
 

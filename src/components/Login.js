@@ -8,7 +8,7 @@ const Login = () => {
 	// Hardcoded as EJ4K3
 	const [gameCode, setGameCode] = useState("EJ4K3");
 
-	const [joined, setJoined] = useState(false);
+	const [joining, setJoining] = useState(false);
 
 	let navigate = useNavigate();
 
@@ -23,29 +23,25 @@ const Login = () => {
 	}
 
 	const joinGame = async () => {
-		setJoined(true);
+		setJoining(true);
 
-		await fetch(gamesURL + "?" + new URLSearchParams({ code: gameCode }), {
-			headers: {
-				'Content-Type': 'application/json'
-			}
-		})
-			.then(response => {
-				if (response.ok) {
-
-					return response.json();
-				} else if (response.status === 404) {
-					setJoined(false);
-					alert("You entered an invalid game code.");
+		await fetch(gamesURL + "?" + new URLSearchParams({ code: gameCode }))
+			.then(async res => {
+				if (res.ok) {
+					const data = await res.json();
+					console.log(data);
+					window.localStorage.setItem('CHOSEN_NAME', JSON.stringify(""));
+					navigate("/play", {state: data});
+				} else {
+					alert("Game not found!");
 				}
-
 			})
-			.then(data => {
-				navigate(`/${gameCode}`, {state: data});
-			}).catch(error => {
-				setJoined(false);
-				console.log(error);
-			});
+			.catch(err => {
+					alert("Error joining the game");
+				}
+			);
+
+		setJoining(false);
 	}
 
 	return (
@@ -61,10 +57,10 @@ const Login = () => {
 				/>
 				<Button 
 					className="login-button" 
-					style={joined ? joinedButtonStyles : {}} 
+					style={joining ? joinedButtonStyles : {}}
 					onClick={joinGame}
 				>
-					{joined ? "Joining": "Join game"}
+					{joining ? "Joining": "Join game"}
 				</Button>
 			</div>
 		</div>
