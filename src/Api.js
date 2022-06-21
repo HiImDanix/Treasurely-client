@@ -1,2 +1,4 @@
-export const gamesURL = 'http://192.168.87.127:8080/games';
-export const currentGameURL = 'http://192.168.87.127:8080/current_game';
+const Domain = process.env.REACT_APP_API_DOMAIN;
+
+export const gamesURL = Domain + '/games';
+export const currentGameURL = Domain + '/current_game';
