@@ -3,7 +3,7 @@ import {Link, useLocation} from "react-router-dom";
 import Navbar from "react-bootstrap/Navbar";
 import Button from "react-bootstrap/Button";
 import Container from "react-bootstrap/Container";
-import {GAMES_URL, GAME_START_PATH} from "../Api";
+import {GAMES_URL, GAME_START_PATH, PLAYERS_URL} from "../Api";
 import NameEnter from "./NameEnter";
 import Task from "./Task";
 
@@ -20,23 +20,31 @@ const Game = () => {
 
 	const data = location.state;
 
-	const [name, setName] = useState(localStorage.getItem('CHOSEN_NAME'));
+	const [name, setName] = useState("");
 
-
-	useEffect(() => {
-		const data = window.localStorage.getItem('CHOSEN_NAME');
-		if ( data !== null ) setName(JSON.parse(data));
-	}, []);
-
-	useEffect(() => {
-		window.localStorage.setItem('CHOSEN_NAME', JSON.stringify(name));
-	}, [name])
+	const [playerSessionID, setPlayerSessionID] = useState(localStorage.getItem('PLAYER_SESSION_ID'));
 
 	const [status, setStatus] = useState(data.status);
 
-	const [currentTask, setCurrentTask] = useState(0);
-
-	console.log(data)
+	useEffect(() => {
+		if (playerSessionID) {
+			fetch(`${PLAYERS_URL}?
+				${new URLSearchParams({player_session_id: playerSessionID})}`)
+				.then(async response => {
+					console.log(response);
+					if (response.ok) {
+						const player = await response.json();
+						setName(player.name);
+						setPlayerSessionID(player.playerSessionID);
+					} else {
+						console.log("Previous game not found");
+					}
+				} ).catch(error => {
+				console.log("Failed to join previous game");
+				})
+			}
+		} , []
+	);
 
 	const startGame = async () => {
 		const requestOptions = {
@@ -80,8 +88,6 @@ const Game = () => {
 			await getUpdates();
 		} else {
 			let data = await response.json();
-
-			console.log(data)
 			setStatus(data.status);
 
 			await getUpdates();

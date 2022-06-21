@@ -5,7 +5,6 @@ import FormControl from "react-bootstrap/FormControl"
 import { GAMES_URL } from "../Api";
 
 const Login = () => {
-	// Hardcoded as EJ4K3
 	const [gameCode, setGameCode] = useState("EJ4K3");
 
 	const [joining, setJoining] = useState(false);

@@ -2,6 +2,7 @@ import {useState} from "react";
 import Button from "react-bootstrap/Button";
 import FormControl from "react-bootstrap/FormControl"
 import { GAMES_URL } from "../Api";
+import async from "async";
 
 const NameEnter = (props) => {
 	const [name, setName] = useState("");
@@ -10,20 +11,17 @@ const NameEnter = (props) => {
 		setName(event.target.value);
 	}
 
-	const confirm = async () => {
-		const requestOptions = {
-			method: "POST",
-			headers: {
-				'Content-Type': 'application/json'
-			},
-		}
+	const joinGame = async () => {
 
-		await fetch(`${GAMES_URL}/${props.data.id}/join?
-			${new URLSearchParams({name: name, code: props.data.code})}`,
-			requestOptions)
-			.then(response => {
-				console.log(response);
+		await fetch(`${GAMES_URL}/${props.data.id}/player?
+			${new URLSearchParams({name: name, code: props.data.code})}`, {
+			method: "POST"
+		})
+			.then(async response => {
 				if (response.ok) {
+					const player = await response.json();
+					console.log(player);
+					localStorage.setItem('PLAYER_SESSION_ID', player.playerSessionID);
 					props.confirm(name);
 				}
 			}).catch(error => {
@@ -44,7 +42,7 @@ const NameEnter = (props) => {
 				/>
 				<Button 
 					className="name-button" 
-					onClick={confirm}
+					onClick={joinGame}
 				>
 					Let's go!
 				</Button>
