@@ -20,7 +20,7 @@ const Task = (props) => {
 	const handleAnswer = async () => {
 
 		await fetch(`${GAMES_URL}/${data.id}/submit?
-			${new URLSearchParams({qr_code: value})}`,
+			${new URLSearchParams({qr_code: value, player_session_id: props.player_session_id})}`,
 			{
 				method: "POST"
 			})
@@ -29,7 +29,7 @@ const Task = (props) => {
 				if (response.ok) {
 					alert("Correct!");
 				} else {
-					alert("Incorrect!");
+					alert("Incorrect or already answered!");
 				}
 			}).catch(error => {
 				console.log(error);

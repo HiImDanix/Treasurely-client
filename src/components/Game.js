@@ -121,7 +121,7 @@ const Game = () => {
 						)
 					)
 				case states.IN_PROGRESS:
-					return (<div><Task /></div>)
+					return (<div><Task player_session_id={playerSessionID} /></div>)
 
 				case states.PAUSED:
 					return (
