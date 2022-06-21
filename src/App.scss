@@ -2,7 +2,7 @@
 @import url(https://fonts.googleapis.com/css2?family=Righteous&family=Yellowtail&display=swap);
 
 // Colors
-$background-color: #0e0f12;
+$background-color: #282c34;
 $primary: #ff6004;
 $card-color: #edf0f7;
 
@@ -67,11 +67,9 @@ $navbar-height: 60px;
 }
 
 .task {
-	margin: 20px;
 	max-width: 400px;
-	height: calc(100vh - ($navbar-height * 2));
-	margin-left: auto;
-	margin-right: auto;
+	height: calc(100vh - (#{$navbar-height * 2}));
+	margin: 20px auto;
 }
 
 .task-camera {
@@ -82,7 +80,7 @@ $navbar-height: 60px;
 }
 
 @keyframes open {
-	from {height: 0%;}
+	from {height: 0;}
 	to {height: auto;}
 }
 
@@ -113,7 +111,6 @@ $navbar-height: 60px;
 .login-page, .name-enter {
 	color: white;
 	margin-top: 0;
-	font-family: $Righteous;
 	letter-spacing: 2px;
 	font-size: 2.6rem;
 }
@@ -126,12 +123,16 @@ $navbar-height: 60px;
 }
 
 .name-enter {
-	min-height: calc(100vh - ($navbar-height * 2));
+	min-height: calc(100vh - (#{$navbar-height * 2}));
 }
 
 .nav-logo {
 	font-family: $Righteous;
 	font-size: 2.5rem;
 	color: white;
+}
+
+.logo {
+	font-family: $Righteous;
 }
 
