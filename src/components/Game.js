@@ -88,12 +88,6 @@ const Game = () => {
 		}
 	}
 
-	const nextTask = () => {
-		if (currentTask < data.tasks.length) {
-			setCurrentTask(prevTask => prevTask + 1);
-		}
-	}
-
 	useEffect(() => {
 		getUpdates();
 	}, [name]);
@@ -121,14 +115,7 @@ const Game = () => {
 						)
 					)
 				case states.IN_PROGRESS:
-					return (
-						<div>
-							<Task 
-								currentTask={data.tasks[currentTask]}
-								nextTask={nextTask}
-							/>
-						</div>
-					)
+					return (<div><Task /></div>)
 
 				case states.PAUSED:
 					return (
