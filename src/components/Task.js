@@ -43,7 +43,11 @@ const Task = (props) => {
 					if (!!error) {
 						console.info(error);
 					}
-				}}/>
+				}}
+				constraints={{
+					facingMode: 'environment'
+				}}
+			/>
 			)}
 		</div>
 	)
