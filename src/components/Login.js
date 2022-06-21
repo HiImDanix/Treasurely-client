@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Button from "react-bootstrap/Button";
 import FormControl from "react-bootstrap/FormControl"
-import { gamesURL } from "../Api";
+import { GAMES_URL } from "../Api";
 
 const Login = () => {
 	// Hardcoded as EJ4K3
@@ -25,7 +25,7 @@ const Login = () => {
 	const joinGame = async () => {
 		setJoining(true);
 
-		await fetch(gamesURL + "?" + new URLSearchParams({ code: gameCode }))
+		await fetch(GAMES_URL + "?" + new URLSearchParams({ code: gameCode }))
 			.then(async res => {
 				if (res.ok) {
 					const data = await res.json();

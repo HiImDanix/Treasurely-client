@@ -1,7 +1,7 @@
 import {useState} from "react";
 import Button from "react-bootstrap/Button";
 import FormControl from "react-bootstrap/FormControl"
-import { gamesURL } from "../Api";
+import { GAMES_URL } from "../Api";
 
 const NameEnter = (props) => {
 	const [name, setName] = useState("");
@@ -18,7 +18,7 @@ const NameEnter = (props) => {
 			},
 		}
 
-		await fetch(`${gamesURL}/${props.data.id}/join?
+		await fetch(`${GAMES_URL}/${props.data.id}/join?
 			${new URLSearchParams({name: name, code: props.data.code})}`,
 			requestOptions)
 			.then(response => {

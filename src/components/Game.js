@@ -3,7 +3,7 @@ import {Link, useLocation} from "react-router-dom";
 import Navbar from "react-bootstrap/Navbar";
 import Button from "react-bootstrap/Button";
 import Container from "react-bootstrap/Container";
-import {gamesURL} from "../Api";
+import {GAMES_URL, GAME_START_PATH} from "../Api";
 import NameEnter from "./NameEnter";
 import Task from "./Task";
 
@@ -46,7 +46,7 @@ const Game = () => {
 			},
 		}
 
-		await fetch(`${gamesURL}/${data.id}/start`,
+		await fetch(`${GAMES_URL}/${data.id}` + GAME_START_PATH,
 			requestOptions)
 			.then(response => {
 				console.log(response);
@@ -65,7 +65,7 @@ const Game = () => {
 
 		await new Promise(resolve => setTimeout(resolve, 1000));
 
-		let response = await fetch(gamesURL + "?" + new URLSearchParams({ code: data.code}))
+		let response = await fetch(GAMES_URL + "?" + new URLSearchParams({ code: data.code}))
 
 		if (response.status === 502) {
 			// Status 502 is a connection timeout error,
