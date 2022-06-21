@@ -4,7 +4,7 @@ import FormControl from "react-bootstrap/FormControl"
 import { GAMES_URL } from "../Api";
 import async from "async";
 
-const NameEnter = (props) => {
+const JoinGame = (props) => {
 	const [name, setName] = useState("");
 
 	function handleChange(event) {
@@ -12,17 +12,16 @@ const NameEnter = (props) => {
 	}
 
 	const joinGame = async () => {
-
-		await fetch(`${GAMES_URL}/${props.data.id}/player?
-			${new URLSearchParams({name: name, code: props.data.code})}`, {
+		await fetch(`${GAMES_URL}/${props.gameID}/player?
+			${new URLSearchParams({name: name, code: props.gameCode})}`, {
 			method: "POST"
 		})
 			.then(async response => {
 				if (response.ok) {
 					const player = await response.json();
-					console.log(player);
 					localStorage.setItem('PLAYER_SESSION_ID', player.playerSessionID);
-					props.confirm(name);
+					props.setPlayerName(name);
+					props.setPlayerSessionID([player.playerSessionID]);
 				}
 			}).catch(error => {
 				console.log(error);
@@ -52,4 +51,4 @@ const NameEnter = (props) => {
 	)
 }
 
-export default NameEnter;
+export default JoinGame;

@@ -3,7 +3,6 @@ import { QrReader } from "react-qr-reader";
 import Button from "react-bootstrap/Button";
 import FormControl from "react-bootstrap/FormControl";
 import {GAMES_URL} from "../Api";
-import {useLocation} from "react-router-dom";
 
 const Task = (props) => {
 	const [camera, setCamera] = useState(false);
@@ -14,22 +13,25 @@ const Task = (props) => {
 		setValue(event.target.value);
 	};
 
-	let location = useLocation();
-	const data = location.state;
-
 	const handleAnswer = async () => {
 
-		await fetch(`${GAMES_URL}/${data.id}/submit?
+		await fetch(`${GAMES_URL}/${props.gameID}/submit?
 			${new URLSearchParams({qr_code: value, player_session_id: props.player_session_id})}`,
 			{
 				method: "POST"
 			})
-			.then(response => {
+			.then(async response => {
 				console.log(response);
 				if (response.ok) {
-					alert("Correct!");
+					const resp = await response.text();
+					if (resp === "true") {
+						alert("Correct!");
+					} else {
+						alert("Wrong");
+					}
+
 				} else {
-					alert("Incorrect or already answered!");
+					alert("Error. Already answered or could not submit.");
 				}
 			}).catch(error => {
 				console.log(error);
@@ -58,8 +60,11 @@ const Task = (props) => {
 				<QrReader
 					className="task-camera"
 					onResult={(result, error) => {
-						setValue(result?.text);
-						handleAnswer()
+						if (!!result) {
+							setValue(result?.text);
+							handleAnswer()
+						}
+
 					}} constraints={{
 						facingMode: "environment"
 				}
