@@ -26,7 +26,7 @@ const Game = () => {
 
 	const [status, setStatus] = useState(data.status);
 
-	useEffect(() => {
+	const joinExistingGame = () => {
 		if (playerSessionID) {
 			fetch(`${PLAYERS_URL}?
 				${new URLSearchParams({player_session_id: playerSessionID})}`)
@@ -41,21 +41,15 @@ const Game = () => {
 					}
 				} ).catch(error => {
 				console.log("Failed to join previous game");
-				})
-			}
-		} , []
-	);
+			})
+		}
+	};
 
 	const startGame = async () => {
-		const requestOptions = {
-			method: "POST",
-			headers: {
-				'Content-Type': 'application/json'
-			},
-		}
-
 		await fetch(`${GAMES_URL}/${data.id}` + GAME_START_PATH,
-			requestOptions)
+			{
+				method: "POST"
+			})
 			.then(response => {
 				console.log(response);
 				if (response.ok) {
@@ -66,7 +60,7 @@ const Game = () => {
 			})
 	}
 
-	const getUpdates = async () => {
+	const executeGameLoop = async () => {
 		if (name === "") {
 			return;
 		}
@@ -80,25 +74,24 @@ const Game = () => {
 			// may happen when the connection was pending for too long,
 			// and the remote server o a proxy closed it
 			// let's reconnect
-			await getUpdates();
+			await executeGameLoop();
 		} else if (response.status !== 200) {
 			// An error - let's show it
 			console.log(response.statusText);
 			// Reconnect in one second
-			await getUpdates();
+			await executeGameLoop();
 		} else {
 			let data = await response.json();
 			setStatus(data.status);
 
-			await getUpdates();
+			await executeGameLoop();
 		}
-	}
+	};
 
-	useEffect(() => {
-		getUpdates();
-	}, [name]);
+	const getPageBody = () => {
+		joinExistingGame();
+		executeGameLoop();
 
-	const getContent = () => {
 		if (name === "") {
 			return (
 				<NameEnter 
@@ -140,10 +133,8 @@ const Game = () => {
 		}   
 	}
 
-
-	return (
-		<div className="game">
-			<Navbar className="nav">
+	const getPageHeader = () => {
+		return <Navbar className="nav">
 				<Container>
 					<Navbar.Brand style={{cursor: "default"}}>
 						<h2 className="nav-logo">Treasurely</h2>
@@ -153,8 +144,13 @@ const Game = () => {
 					</Navbar.Text>
 				</Container>
 			</Navbar>
+	}
 
-			{getContent()}
+
+	return (
+		<div className="game">
+			{getPageHeader()}
+			{getPageBody()}
 
 		</div>
 	)
