@@ -60,7 +60,10 @@ const Task = (props) => {
 					onResult={(result, error) => {
 						setValue(result?.text);
 						handleAnswer()
-					}}
+					}} constraints={{
+						facingMode: "environment"
+				}
+				}
 				/>
 			)}
 		</div>
