@@ -11,6 +11,7 @@ import Task from "./Task";
 const Game = () => {
 	const location = useLocation();
 	const propsGame = location.state;
+	let gameLoopRunning = false;
 
 	// States that the game can be in
 	const AVAILABLE_GAME_STATUSES = {
@@ -29,6 +30,8 @@ const Game = () => {
 	const [gameID, setGameID] = useState(propsGame.id);
 	const [gameCode, setGameCode] = useState(propsGame.code);
 	const [gameStatus, setGameStatus] = useState(propsGame.status);
+
+	const [players, setPlayers] = useState(propsGame.players);
 
 	// try to join the game with the player's session ID that is stored in local storage.
 	const joinExistingGame = () => {
@@ -67,9 +70,11 @@ const Game = () => {
 
 	// Retrieve information about the current game, in a recursive loop
 	const executeGameLoop = async () => {
-		if (playerName === "") {
+		if (playerName === "" || gameLoopRunning) {
 			return;
 		}
+
+		gameLoopRunning = true;
 
 		await new Promise(resolve => setTimeout(resolve, 1000));
 
@@ -85,13 +90,27 @@ const Game = () => {
 		} else {
 			// update local game state
 			let game = await response.json();
+
+			console.log(game)
 			if (game.status && gameStatus != game.status) {
 				setGameStatus(game.status);
+			}
+
+			if (players != game.players) {
+				setPlayers(game.players);
 			}
 
 			await executeGameLoop();
 		}
 	};
+
+	const getPlayersList = () => {
+		return (
+			<div className="players-list">
+				{players.map(player => <p>{player.name}</p>)}
+			</div>
+		)
+	}
 
 	const getPageBody = () => {
 		joinExistingGame();
@@ -112,10 +131,12 @@ const Game = () => {
 					return (
 						(
 							<div className="game-players">
-								{/*showPlayers()*/}
+								<h2 className="game-playersTitle">Players:</h2>
+								{getPlayersList()}
 								<Button
 									className="white"
 									onClick={handleStartGameButton}
+									style={{margin: "10px"}}
 								>Start game</Button>
 							</div>
 						)

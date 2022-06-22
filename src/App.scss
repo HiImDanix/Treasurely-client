@@ -64,6 +64,8 @@ $navbar-height: 60px;
 	border-radius: 3px;
 	font-size: 1.2rem;
 	font-weight: bold;
+	cursor: pointer;
+	width: 100%;
 }
 
 .task-cameraButton {
@@ -133,6 +135,20 @@ $navbar-height: 60px;
 	font-size: 2.6rem;
 }
 
+.login-page, .name-enter{
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+}
+
+.login-page {
+	background-repeat: no-repeat;
+	background-position: bottom 50px right 50px;
+	background-size: cover;
+	background-image: url('./images/background.svg');
+}
+
 .name-enter {
 	min-height: calc(100vh - (#{$navbar-height * 2}));
 }
@@ -142,7 +158,20 @@ $navbar-height: 60px;
 	color: white;
 }
 
-.logo {
+.login-logo {
+	font-size: 2.6rem;
+}
+
+.logo, .login-logo {
 	font-family: $Righteous;
 }
 
+.game-players {
+	margin: 30px;
+}
+
+.players-list {
+	display: grid;
+	font-size: 1.5rem;
+	grid-template: auto auto / repeat(3, 1fr);
+}

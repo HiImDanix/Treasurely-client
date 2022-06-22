@@ -32,7 +32,7 @@ const Login = () => {
 
 	return (
 		<div className="login-page">
-			<h2 className="logo">Treasurely</h2>
+			<h2 className="login-logo">Treasurely</h2>
 
 			<div className="login-card">
 				<FormControl 
