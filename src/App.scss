@@ -146,3 +146,12 @@ $navbar-height: 60px;
 	font-family: $Righteous;
 }
 
+.game-players {
+	margin: 30px;
+}
+
+.players-list {
+	display: grid;
+	font-size: 1.5rem;
+	grid-template: auto auto / repeat(3, 1fr);
+}
