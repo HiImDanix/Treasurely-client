@@ -43,7 +43,7 @@ const Task = (props) => {
 	};
 
 	return (
-		<div className="task" col>
+		<div className="task">
 			<div className="task-input">
 				<FormControl
 					onChange={handleChange}

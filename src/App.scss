@@ -73,11 +73,6 @@ $navbar-height: 60px;
 	text-align: center;
 }
 
-.task {
-	max-width:600px;
-	margin: 0 auto;
-}
-
 .task-camera {
 	width: 100%;
 	animation-name: open;
@@ -174,4 +169,24 @@ $navbar-height: 60px;
 	display: grid;
 	font-size: 1.5rem;
 	grid-template: auto auto / repeat(3, 1fr);
+}
+
+.mission-card {
+	height:80px;
+	background-color: lighten($color: $background-color, $amount: 5);
+	margin: 20px auto 0 auto;
+	padding:15px 5px 15px 15px;
+	width:97%; /* not sure why larger than code card, so shrinking it */
+	cursor: pointer;
+}
+.game-container {
+	max-width:600px;
+}
+.mission-card-chevron {
+	font-size:1.5em;
+	padding-top:5px;
+}
+.mission-card-clue {
+	display:inline-block;
+	text-align:left;
 }

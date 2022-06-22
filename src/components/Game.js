@@ -142,7 +142,7 @@ const Game = () => {
 						)
 					)
 				case AVAILABLE_GAME_STATUSES.IN_PROGRESS:
-					return (<div><Task player_session_id={playerSessionID} gameID={gameID} /></div>)
+					return (<Task player_session_id={playerSessionID} gameID={gameID} />)
 
 				case AVAILABLE_GAME_STATUSES.PAUSED:
 					return (
@@ -168,7 +168,7 @@ const Game = () => {
 						<h2 className="nav-logo logo">Treasurely</h2>
 					</Navbar.Brand>
 					<Navbar.Text>
-						<Link className={"link-light"} to="/">Quit</Link>
+						<Link className={"link-light"} to="/">Leave</Link>
 					</Navbar.Text>
 				</Container>
 			</Navbar>
@@ -178,12 +178,22 @@ const Game = () => {
 	return (
 		<div className="game">
 			{getPageHeader()}
-			<Container>
+			<Container  className="game-container">
 				<Row className="mt-4">
 					{getPageBody()}
 				</Row>
 				<Row className="mt-5">
 					<h1>Missions</h1>
+					<div className="mission-card d-flex" onClick={() => alert("Open task page")}>
+						<img alt="Take a photo task" className="rounded-circle h-100 float-start" src="https://d1csarkz8obe9u.cloudfront.net/posterpreviews/camera-icon-design-template-119f4b8209203042e9ff053ab606148b_screen.jpg?ts=1625419191"></img>
+						<div className="flex-grow-1 ps-3 text-start">Enjoy the view of the iceberg from the favourite lookout.</div>
+						<i className="bi-chevron-compact-right float-end mission-card-chevron ml-auto-p2"></i>
+					</div>
+					<div className="mission-card d-flex" onClick={() => alert("Open task page")}>
+						<img alt="Take a photo task" className="rounded-circle h-100 float-start" src="https://d1csarkz8obe9u.cloudfront.net/posterpreviews/camera-icon-design-template-119f4b8209203042e9ff053ab606148b_screen.jpg?ts=1625419191"></img>
+						<div className="flex-grow-1 ps-3 text-start">Find the missing leg for 'big bug'</div>
+						<i className="bi-chevron-compact-right float-end mission-card-chevron ml-auto-p2"></i>
+					</div>
 				</Row>
 			</Container>
 
