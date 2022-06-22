@@ -2,7 +2,7 @@
 @import url(https://fonts.googleapis.com/css2?family=Righteous&family=Yellowtail&display=swap);
 
 // Colors
-$background-color: #282c34;
+$background-color: #14161a;
 $primary: #ff6004;
 $card-color: #edf0f7;
 
@@ -57,7 +57,6 @@ $navbar-height: 60px;
 	font-weight: bold;
 	cursor: pointer;
 	width: 100%;
-	margin-top: 10px;
 }
 
 .task-cameraButton {
@@ -122,6 +121,13 @@ $navbar-height: 60px;
 	justify-content: center;
 }
 
+.login-page {
+	background-repeat: no-repeat;
+	background-position: bottom 50px right 50px;
+	background-size: cover;
+	background-image: url('./images/background.svg');
+}
+
 .name-enter {
 	min-height: calc(100vh - (#{$navbar-height * 2}));
 }
@@ -132,7 +138,11 @@ $navbar-height: 60px;
 	color: white;
 }
 
-.logo {
+.login-logo {
+	font-size: 2.6rem;
+}
+
+.logo, .login-logo {
 	font-family: $Righteous;
 }
 
