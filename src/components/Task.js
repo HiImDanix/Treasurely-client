@@ -43,19 +43,21 @@ const Task = (props) => {
 	};
 
 	return (
-		<div className="task">
-			<FormControl
-				onChange={handleChange}
-				value={value}
-				className="task-field"
-				placeholder="Answer"
-			/>
-			<Button className="task-checkButton" onClick={handleAnswer}>
-				Check answer
-			</Button>
-			<Button onClick={toggleCamera} className="task-cameraButton">
-				{camera ? "Disable camera" : "Enable camera"}
-			</Button>
+		<div className="task" col>
+			<div className="task-input">
+				<FormControl
+					onChange={handleChange}
+					value={value}
+					className="task-field"
+					placeholder="Code"
+				/>
+				<i className="bi bi-camera-fill task-camera-btn" onClick={toggleCamera}></i>
+			</div>
+			<div className="qr-code-buttons">
+				<Button className="validate-code-btn w-100" onClick={handleAnswer}>
+					Appraise
+				</Button>
+			</div>
 			{camera && (
 				<QrReader
 					className="task-camera"

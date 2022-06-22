@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import {Link, useLocation} from "react-router-dom";
 import Navbar from "react-bootstrap/Navbar";
 import Button from "react-bootstrap/Button";
-import Container from "react-bootstrap/Container";
+import {Container , Row, Col} from 'react-bootstrap'
 import {GAMES_URL, GAME_START_PATH, PLAYERS_URL} from "../Api";
 import JoinGame from "./JoinGame";
 import Task from "./Task";
@@ -144,7 +144,7 @@ const Game = () => {
 		return <Navbar className="nav">
 				<Container>
 					<Navbar.Brand style={{cursor: "default"}}>
-						<h2 className="nav-logo">Treasurely</h2>
+						<h2 className="nav-logo logo">Treasurely</h2>
 					</Navbar.Brand>
 					<Navbar.Text>
 						<Link className={"link-light"} to="/">Quit</Link>
@@ -157,7 +157,14 @@ const Game = () => {
 	return (
 		<div className="game">
 			{getPageHeader()}
-			{getPageBody()}
+			<Container>
+				<Row className="mt-4">
+					{getPageBody()}
+				</Row>
+				<Row className="mt-5">
+					<h1>Missions</h1>
+				</Row>
+			</Container>
 
 		</div>
 	)
