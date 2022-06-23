@@ -7,6 +7,8 @@ import {GAMES_URL, GAME_START_PATH, PLAYERS_URL} from "../Api";
 import JoinGame from "./JoinGame";
 import Task from "./Task";
 
+var LocationIMG = require('../images/location.png')
+
 
 const Game = () => {
 	const location = useLocation();
@@ -183,17 +185,25 @@ const Game = () => {
 					{getPageBody()}
 				</Row>
 				<Row className="mt-5">
+					
 					<h1>Missions</h1>
+
 					<div className="mission-card d-flex" onClick={() => alert("Open task page")}>
-						<img alt="Take a photo task" className="rounded-circle h-100 float-start" src="https://d1csarkz8obe9u.cloudfront.net/posterpreviews/camera-icon-design-template-119f4b8209203042e9ff053ab606148b_screen.jpg?ts=1625419191"></img>
-						<div className="flex-grow-1 ps-3 text-start">Enjoy the view of the iceberg from the favourite lookout.</div>
-						<i className="bi-chevron-compact-right float-end mission-card-chevron ml-auto-p2"></i>
+						<img alt="Take a photo task" className="rounded-circle float-start rounded-circle" src={LocationIMG}></img>
+						<div className="flex-grow-1 ps-3 text-start">Enjoy the view of the iceberg from the favourite lookout.Enjoy the view of the iceberg from the favourite lookout.</div>
+						<div className="vertical-center-icon-parent">
+							<i className="bi-chevron-compact-right mission-card-chevron ml-auto-p2"></i>
+						</div>
 					</div>
+
 					<div className="mission-card d-flex" onClick={() => alert("Open task page")}>
-						<img alt="Take a photo task" className="rounded-circle h-100 float-start" src="https://d1csarkz8obe9u.cloudfront.net/posterpreviews/camera-icon-design-template-119f4b8209203042e9ff053ab606148b_screen.jpg?ts=1625419191"></img>
+						<img alt="Take a photo task" className="rounded-circle float-start rounded-circle" src={LocationIMG}></img>
 						<div className="flex-grow-1 ps-3 text-start">Find the missing leg for 'big bug'</div>
-						<i className="bi-chevron-compact-right float-end mission-card-chevron ml-auto-p2"></i>
+						<div className="vertical-center-icon-parent">
+							<i className="bi-chevron-compact-right mission-card-chevron ml-auto-p2"></i>
+						</div>
 					</div>
+
 				</Row>
 			</Container>
 

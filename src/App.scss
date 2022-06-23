@@ -172,21 +172,31 @@ $navbar-height: 60px;
 }
 
 .mission-card {
-	height:80px;
 	background-color: lighten($color: $background-color, $amount: 5);
 	margin: 20px auto 0 auto;
 	padding:15px 5px 15px 15px;
 	width:97%; /* not sure why larger than code card, so shrinking it */
 	cursor: pointer;
 }
+.mission-card img {
+	height:50px;
+	width:auto;
+	position: relative;
+	top: 50%;
+	transform: translateY(-50%);
+}
 .game-container {
 	max-width:600px;
 }
 .mission-card-chevron {
 	font-size:1.5em;
-	padding-top:5px;
 }
 .mission-card-clue {
 	display:inline-block;
 	text-align:left;
+}
+.vertical-center-icon-parent {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
 }
