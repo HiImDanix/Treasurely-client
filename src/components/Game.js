@@ -177,7 +177,10 @@ const Game = () => {
 					<h2 className="nav-logo logo">Treasurely</h2>
 				</Navbar.Brand>
 				<Navbar.Text>
-					<Link className={"link-light"} to="/">Leave</Link>
+					<Link className={"link-light"} to="/">
+							<i className="nav-leave bi bi-box-arrow-left"></i>
+							Leave
+					</Link>
 				</Navbar.Text>
 			</Container>
 		</Navbar>

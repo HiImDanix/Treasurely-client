@@ -39,11 +39,14 @@ $navbar-height: 60px;
 	color: white !important;
 }
 
-
 .login-page, .game {
 	box-sizing: border-box;
 	min-height: 100vh;
 	color: white;
+}
+
+.nav-leave {
+	padding-right: 4px;
 }
 
 .App-link {
