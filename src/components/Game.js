@@ -1,12 +1,11 @@
 import { useState } from 'react';
-import {Link, useLocation} from "react-router-dom";
-import Navbar from "react-bootstrap/Navbar";
+import { useLocation } from "react-router-dom";
 import Button from "react-bootstrap/Button";
-import {Container } from 'react-bootstrap'
 import {GAMES_URL, GAME_START_PATH, PLAYERS_URL} from "../Api";
 import JoinGame from "./JoinGame";
 import Task from "./Task";
-import Camera from './Camera';
+import Nav from './Nav';
+import {Container } from 'react-bootstrap'
 
 const Game = () => {
 	const location = useLocation();
@@ -193,26 +192,9 @@ const Game = () => {
 		}
 	}
 
-	const getPageHeader = () => {
-		return <Navbar className="nav">
-			<Container>
-				<Navbar.Brand style={{cursor: "default"}}>
-					<h2 className="nav-logo logo">Treasurely</h2>
-				</Navbar.Brand>
-				<Navbar.Text>
-					<Link className={"link-light"} to="/">
-						<i className="nav-leave bi bi-box-arrow-left"></i>
-						Leave
-					</Link>
-				</Navbar.Text>
-			</Container>
-		</Navbar>
-	}
-
-
 	return (
 		<div className="game">
-			{getPageHeader()}
+			<Nav />
 			<Container className="game-container">
 				{playerName !== "" && getMissions()}
 				{getPageBody()}
