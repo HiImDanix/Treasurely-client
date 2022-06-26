@@ -2,13 +2,11 @@ import { useState } from 'react';
 import {Link, useLocation} from "react-router-dom";
 import Navbar from "react-bootstrap/Navbar";
 import Button from "react-bootstrap/Button";
-import {Container, Row } from 'react-bootstrap'
+import {Container } from 'react-bootstrap'
 import {GAMES_URL, GAME_START_PATH, PLAYERS_URL} from "../Api";
 import JoinGame from "./JoinGame";
 import Task from "./Task";
-
-var LocationIMG = require('../images/location.png')
-
+import Camera from './Camera';
 
 const Game = () => {
 	const location = useLocation();
@@ -121,6 +119,27 @@ const Game = () => {
 		)
 	}
 
+	const getMissions = () => {
+		return (
+			<div className="mission">
+				<h1>Missions</h1>
+
+				<div className="mission-card" onClick={() => alert("Open task page")}>
+					<i class="cursor bi bi-cursor-fill"></i>
+					<div className="mission-text">Enjoy the view of the iceberg from the favourite lookout.Enjoy the view of the iceberg from the favourite lookout.</div>
+					<i className="bi-chevron-compact-right mission-chevron ml-auto-p2"></i>
+				</div>
+
+				<div className="mission-card" onClick={() => alert("Open task page")}>
+					<i class="cursor bi bi-cursor-fill"></i>
+					<div className="mission-text">Find the missing leg for 'big bug'</div>
+					<i className="bi-chevron-compact-right mission-chevron ml-auto-p2"></i>
+				</div>
+			</div>
+
+		)
+	}
+
 	const getPageBody = () => {
 		joinExistingGame();
 		executeGameLoop();
@@ -140,7 +159,7 @@ const Game = () => {
 					return (
 						(
 							<div className="game-players">
-								<h2 className="game-playersTitle">Players:</h2>
+								<h1 className="game-playersTitle">Players</h1>
 								{getPlayersList()}
 								<Button
 									className="white"
@@ -151,7 +170,11 @@ const Game = () => {
 						)
 					)
 				case AVAILABLE_GAME_STATUSES.IN_PROGRESS:
-					return (<Task player_session_id={playerSessionID} gameID={gameID} />)
+					return (
+						<div>
+							<Task player_session_id={playerSessionID} gameID={gameID} />
+						</div>
+					)
 
 				case AVAILABLE_GAME_STATUSES.PAUSED:
 					return (
@@ -178,8 +201,8 @@ const Game = () => {
 				</Navbar.Brand>
 				<Navbar.Text>
 					<Link className={"link-light"} to="/">
-							<i className="nav-leave bi bi-box-arrow-left"></i>
-							Leave
+						<i className="nav-leave bi bi-box-arrow-left"></i>
+						Leave
 					</Link>
 				</Navbar.Text>
 			</Container>
@@ -190,31 +213,9 @@ const Game = () => {
 	return (
 		<div className="game">
 			{getPageHeader()}
-			<Container  className="game-container">
-				<Row className="mt-4">
-					{getPageBody()}
-				</Row>
-				<Row className="mt-5">
-
-					<h1>Missions</h1>
-
-					<div className="mission-card d-flex" onClick={() => alert("Open task page")}>
-						<img alt="Take a photo task" className="rounded-circle float-start rounded-circle" src={LocationIMG}></img>
-						<div className="flex-grow-1 ps-3 text-start">Enjoy the view of the iceberg from the favourite lookout.Enjoy the view of the iceberg from the favourite lookout.</div>
-						<div className="vertical-center-icon-parent">
-							<i className="bi-chevron-compact-right mission-card-chevron ml-auto-p2"></i>
-						</div>
-					</div>
-
-					<div className="mission-card d-flex" onClick={() => alert("Open task page")}>
-						<img alt="Take a photo task" className="rounded-circle float-start rounded-circle" src={LocationIMG}></img>
-						<div className="flex-grow-1 ps-3 text-start">Find the missing leg for 'big bug'</div>
-						<div className="vertical-center-icon-parent">
-							<i className="bi-chevron-compact-right mission-card-chevron ml-auto-p2"></i>
-						</div>
-					</div>
-
-				</Row>
+			<Container className="game-container">
+				{playerName !== "" && getMissions()}
+				{getPageBody()}
 			</Container>
 
 		</div>
