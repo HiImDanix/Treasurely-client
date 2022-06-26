@@ -1,13 +1,14 @@
 // Google fonts
 @import url(https://fonts.googleapis.com/css2?family=Righteous&family=Yellowtail&display=swap);
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@300&display=swap');
 
 // Colors
-$background-color: #282c34;
+$background-color:  #14161a;
 $primary: #ff6004;
 $card-color: #edf0f7;
 
 $theme-colors: (
-  "primary": $primary,
+	"primary": $primary,
 );
 
 
@@ -22,6 +23,7 @@ $navbar-height: 60px;
 .App {
 	text-align: center;
 	background-color: $background-color;
+	font-family: 'Open Sans', sans-serif;
 }
 
 .white {
@@ -30,7 +32,8 @@ $navbar-height: 60px;
 
 .nav {
 	max-height: $navbar-height;
-	background-color: darken($color: $background-color, $amount: 5);
+	background: linear-gradient(90deg, $primary, #FF754F);
+	box-shadow: 0px 3px 4px 3px rgba(0, 0, 0, 0.2);
 }
 
 .nav a {
@@ -51,6 +54,7 @@ $navbar-height: 60px;
 .qr-code-buttons {
 
 }
+
 .qr-code-buttons button {
 	color:white;
 	border-radius:3px;
@@ -116,7 +120,7 @@ $navbar-height: 60px;
 
 .login-card, .name-card {
 	margin: 0 auto;
-	max-width: 400px;
+	width: 300px;
 	height: min-content;
 	padding: 10px;
 	border-radius: 5px;
@@ -130,7 +134,7 @@ $navbar-height: 60px;
 	font-size: 2.6rem;
 }
 
-.login-page, .name-enter{
+.login-page, .name-enter {
 	display: flex;
 	flex-direction: column;
 	align-items: center;
@@ -162,13 +166,51 @@ $navbar-height: 60px;
 }
 
 .game-players {
-	margin: 30px;
+	margin: 20px;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+.game-playersTitle {
+	font-weight: bold;
+	margin: 15px;
 }
 
 .players-list {
 	display: grid;
 	font-size: 1.5rem;
 	grid-template: auto auto / repeat(3, 1fr);
+}
+
+.player {
+	position: relative;
+	background-color: $primary;
+	padding: 10px;
+	width: min-content;
+	height: min-content;
+	margin-left: auto;
+	margin-right: auto;
+	border-radius: 5px;
+	overflow: hidden;
+	opacity: 0.9;
+}
+
+.player-name {
+	margin: 0px;
+	z-index: 1;
+}
+
+.player-emoji {
+	position: absolute;
+	padding: 0px;
+	margin: 0px;
+	font-size: 3.4rem;
+	color: $background-color;
+	transform: translate(-50%, -50%);
+	top: 70%;
+	left: 70%;
+	z-index: -1;
+	opacity: 0.2;
 }
 
 .mission-card {

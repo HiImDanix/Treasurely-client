@@ -1,8 +1,8 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import {Link, useLocation} from "react-router-dom";
 import Navbar from "react-bootstrap/Navbar";
 import Button from "react-bootstrap/Button";
-import {Container , Row, Col} from 'react-bootstrap'
+import {Container, Row } from 'react-bootstrap'
 import {GAMES_URL, GAME_START_PATH, PLAYERS_URL} from "../Api";
 import JoinGame from "./JoinGame";
 import Task from "./Task";
@@ -49,8 +49,8 @@ const Game = () => {
 						console.log("Previous game not found");
 					}
 				} ).catch(error => {
-				console.log("Failed to join previous game");
-			})
+					console.log("Failed to join previous game");
+				})
 		}
 	};
 
@@ -109,7 +109,14 @@ const Game = () => {
 	const getPlayersList = () => {
 		return (
 			<div className="players-list">
-				{players.map(player => <p>{player.name}</p>)}
+				{players.map(player => {
+					return (
+						<div className='player'>
+							<i className="bi bi-emoji-laughing player-emoji"></i>
+							<p className='player-name'>{player.name}</p>
+						</div>
+					)
+				})}
 			</div>
 		)
 	}
@@ -138,7 +145,7 @@ const Game = () => {
 								<Button
 									className="white"
 									onClick={handleStartGameButton}
-									style={{margin: "10px"}}
+									style={{margin: "30px"}}
 								>Start game</Button>
 							</div>
 						)
@@ -165,15 +172,15 @@ const Game = () => {
 
 	const getPageHeader = () => {
 		return <Navbar className="nav">
-				<Container>
-					<Navbar.Brand style={{cursor: "default"}}>
-						<h2 className="nav-logo logo">Treasurely</h2>
-					</Navbar.Brand>
-					<Navbar.Text>
-						<Link className={"link-light"} to="/">Leave</Link>
-					</Navbar.Text>
-				</Container>
-			</Navbar>
+			<Container>
+				<Navbar.Brand style={{cursor: "default"}}>
+					<h2 className="nav-logo logo">Treasurely</h2>
+				</Navbar.Brand>
+				<Navbar.Text>
+					<Link className={"link-light"} to="/">Leave</Link>
+				</Navbar.Text>
+			</Container>
+		</Navbar>
 	}
 
 
@@ -185,7 +192,7 @@ const Game = () => {
 					{getPageBody()}
 				</Row>
 				<Row className="mt-5">
-					
+
 					<h1>Missions</h1>
 
 					<div className="mission-card d-flex" onClick={() => alert("Open task page")}>
