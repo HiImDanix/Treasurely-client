@@ -11,20 +11,29 @@ const JoinGame = (props) => {
 	}
 
 	const joinGame = async () => {
-		await fetch(`${GAMES_URL}/${props.gameID}/player?
+		if (name !== "") {
+			await fetch(`${GAMES_URL}/${props.gameID}/player?
 			${new URLSearchParams({name: name, code: props.gameCode})}`, {
-			method: "POST"
-		})
-			.then(async response => {
+				method: "POST"
+
+			}).then(async response => {
+
 				if (response.ok) {
 					const player = await response.json();
+
 					localStorage.setItem('PLAYER_SESSION_ID', player.playerSessionID);
 					props.setPlayerName(name);
 					props.setPlayerSessionID([player.playerSessionID]);
 				}
+
 			}).catch(error => {
 				console.log(error);
+
 			})
+
+		} else {
+			alert("Name cannot be empty");
+		}
 	}
 
 	return (

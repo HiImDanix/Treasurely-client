@@ -26,16 +26,18 @@ const Game = () => {
 	const [playerSessionID, setPlayerSessionID] = useState(localStorage.getItem('PLAYER_SESSION_ID'));
 
 	// Game state
-	const [gameID, setGameID] = useState(propsGame.id);
-	const [gameCode, setGameCode] = useState(propsGame.code);
-	const [gameStatus, setGameStatus] = useState(propsGame.status);
-
-	const [players, setPlayers] = useState(propsGame.players);
+	const [game, setGame] = useState({
+		id: propsGame.id,
+		code: propsGame.code,
+		status: propsGame.status,
+		players: propsGame.players
+	});
 
 	// try to join the game with the player's session ID that is stored in local storage.
 	const joinExistingGame = () => {
-		if (playerSessionID) {
-			fetch(`${PLAYERS_URL}?
+		console.log("run " + playerSessionID);
+		if (playerSessionID && playerName === "") {
+			fetch(`${GAMES_URL}/${game.id}/players?
 				${new URLSearchParams({player_session_id: playerSessionID})}`)
 				.then(async response => {
 					console.log(response);
@@ -53,7 +55,7 @@ const Game = () => {
 
 	// Tell API to start the game
 	const handleStartGameButton = async () => {
-		await fetch(`${GAMES_URL}/${gameID}` + GAME_START_PATH,
+		await fetch(`${GAMES_URL}/${game.id}` + GAME_START_PATH,
 			{
 				method: "POST"
 			})
@@ -77,7 +79,7 @@ const Game = () => {
 
 		await new Promise(resolve => setTimeout(resolve, 1000));
 
-		let response = await fetch(GAMES_URL + "?" + new URLSearchParams({ code: gameCode}))
+		let response = await fetch(GAMES_URL + "?" + new URLSearchParams({ code: game.code}))
 
 		if (response.status === 502) {
 			await executeGameLoop(); // Status 502 is a connection timeout error
@@ -88,25 +90,34 @@ const Game = () => {
 			await executeGameLoop();
 		} else {
 			// update local game state
-			let game = await response.json();
+			let data = await response.json();
 
-			console.log(game)
-			if (game.status && gameStatus != game.status) {
-				setGameStatus(game.status);
+			console.log(data)
+			if (data.status && game.status != data.status) {
+				updateGame("status", data.status);
 			}
 
-			if (players != game.players) {
-				setPlayers(game.players);
+			if (game.players != data.players) {
+				updateGame("players", data.players);
 			}
 
 			await executeGameLoop();
 		}
 	};
 
+	const updateGame = (name, value) => {
+		setGame(prevGame => {
+			return {
+				...prevGame,
+				[name]: value 
+			}
+		})
+	}
+
 	const getPlayersList = () => {
 		return (
 			<div className="players-list">
-				{players.map(player => {
+				{game.players.map(player => {
 					return (
 						<div className='player'>
 							<i className="bi bi-emoji-laughing player-emoji"></i>
@@ -146,14 +157,14 @@ const Game = () => {
 		if (playerName === "") {
 			return (
 				<JoinGame
-					gameCode={gameCode}
-					gameID={gameID}
+					gameCode={game.code}
+					gameID={game.id}
 					setPlayerName={setPlayerName}
 					setPlayerSessionID={setPlayerSessionID}
 				/>
 			)
 		} else {
-			switch (gameStatus) {
+			switch (game.status) {
 				case AVAILABLE_GAME_STATUSES.NOT_STARTED:
 					return (
 						(
@@ -171,7 +182,7 @@ const Game = () => {
 				case AVAILABLE_GAME_STATUSES.IN_PROGRESS:
 					return (
 						<div>
-							<Task player_session_id={playerSessionID} gameID={gameID} />
+							<Task player_session_id={playerSessionID} gameID={game.id} />
 						</div>
 					)
 
