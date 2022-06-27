@@ -1,11 +1,9 @@
 import { useState } from "react";
-import { QrReader } from "react-qr-reader";
 import Button from "react-bootstrap/Button";
 import FormControl from "react-bootstrap/FormControl";
 import {GAMES_URL} from "../Api";
 
 const Task = (props) => {
-	const [camera, setCamera] = useState(false);
 
 	const [value, setValue] = useState("");
 
@@ -38,10 +36,6 @@ const Task = (props) => {
 			})
 	};
 
-	const toggleCamera = () => {
-		setCamera(camera => !camera);
-	};
-
 	return (
 		<div className="task">
 			<div className="task-input">
@@ -51,28 +45,13 @@ const Task = (props) => {
 					className="task-field"
 					placeholder="Code"
 				/>
-				<i className="bi bi-camera-fill task-camera-btn" onClick={toggleCamera}></i>
+				<i className="bi bi-camera-fill task-camera-btn" onClick={props.cameraToggleCallback}></i>
 			</div>
 			<div className="qr-code-buttons">
-				<Button className="validate-code-btn w-100" onClick={handleAnswer}>
+				<Button className="validate-code-btn w-100" onClick={props.cameraToggleCallback}>
 					Appraise
 				</Button>
 			</div>
-			{camera && (
-				<QrReader
-					className="task-camera"
-					onResult={(result, error) => {
-						if (!!result) {
-							setValue(result?.text);
-							handleAnswer()
-						}
-
-					}} constraints={{
-						facingMode: "environment"
-				}
-				}
-				/>
-			)}
 		</div>
 	);
 };

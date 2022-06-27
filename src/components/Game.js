@@ -6,6 +6,7 @@ import {Container , Row, Col} from 'react-bootstrap'
 import {GAMES_URL, GAME_START_PATH, PLAYERS_URL} from "../Api";
 import JoinGame from "./JoinGame";
 import Task from "./Task";
+import Camera from "./Camera";
 
 var LocationIMG = require('../images/location.png')
 
@@ -34,6 +35,11 @@ const Game = () => {
 	const [gameStatus, setGameStatus] = useState(propsGame.status);
 
 	const [players, setPlayers] = useState(propsGame.players);
+
+	// VIEWS
+	const [cameraView, setCameraView] = useState(false);
+	const [joinGameView, setJoinGameView] = useState(false);
+
 
 	// try to join the game with the player's session ID that is stored in local storage.
 	const joinExistingGame = () => {
@@ -133,7 +139,7 @@ const Game = () => {
 					return (
 						(
 							<div className="game-players">
-								<h2 className="game-playersTitle">Players:</h2>
+								<h2>Players:</h2>
 								{getPlayersList()}
 								<Button
 									className="white"
@@ -144,7 +150,11 @@ const Game = () => {
 						)
 					)
 				case AVAILABLE_GAME_STATUSES.IN_PROGRESS:
-					return (<Task player_session_id={playerSessionID} gameID={gameID} />)
+					return (<Task
+						player_session_id={playerSessionID}
+						gameID={gameID}
+						cameraToggleCallback={() => {alert("Camera view toggled")}}
+					/>)
 
 				case AVAILABLE_GAME_STATUSES.PAUSED:
 					return (
@@ -176,36 +186,45 @@ const Game = () => {
 			</Navbar>
 	}
 
+	const getGameView = () => {
+		return <Container  className="game-container">
+			<Row className="mt-4">
+				{getPageBody()}
+			</Row>
+			<Row className="mt-5">
+
+				<h1>Missions</h1>
+
+				<div className="mission-card d-flex" onClick={() => alert("Open task page")}>
+					<img alt="Take a photo task" className="rounded-circle float-start rounded-circle" src={LocationIMG}></img>
+					<div className="flex-grow-1 ps-3 text-start">Enjoy the view of the iceberg from the favourite lookout.Enjoy the view of the iceberg from the favourite lookout.</div>
+					<div className="vertical-center-icon-parent">
+						<i className="bi-chevron-compact-right mission-card-chevron ml-auto-p2"></i>
+					</div>
+				</div>
+
+				<div className="mission-card d-flex" onClick={() => alert("Open task page")}>
+					<img alt="Take a photo task" className="rounded-circle float-start rounded-circle" src={LocationIMG}></img>
+					<div className="flex-grow-1 ps-3 text-start">Find the missing leg for 'big bug'</div>
+					<div className="vertical-center-icon-parent">
+						<i className="bi-chevron-compact-right mission-card-chevron ml-auto-p2"></i>
+					</div>
+				</div>
+
+			</Row>
+		</Container>
+	}
+
+	const getCameraView = () => {
+		return <Camera></Camera>
+	}
+
 
 	return (
 		<div className="game">
 			{getPageHeader()}
-			<Container  className="game-container">
-				<Row className="mt-4">
-					{getPageBody()}
-				</Row>
-				<Row className="mt-5">
-					
-					<h1>Missions</h1>
+			{cameraView ? getCameraView() : getGameView()}
 
-					<div className="mission-card d-flex" onClick={() => alert("Open task page")}>
-						<img alt="Take a photo task" className="rounded-circle float-start rounded-circle" src={LocationIMG}></img>
-						<div className="flex-grow-1 ps-3 text-start">Enjoy the view of the iceberg from the favourite lookout.Enjoy the view of the iceberg from the favourite lookout.</div>
-						<div className="vertical-center-icon-parent">
-							<i className="bi-chevron-compact-right mission-card-chevron ml-auto-p2"></i>
-						</div>
-					</div>
-
-					<div className="mission-card d-flex" onClick={() => alert("Open task page")}>
-						<img alt="Take a photo task" className="rounded-circle float-start rounded-circle" src={LocationIMG}></img>
-						<div className="flex-grow-1 ps-3 text-start">Find the missing leg for 'big bug'</div>
-						<div className="vertical-center-icon-parent">
-							<i className="bi-chevron-compact-right mission-card-chevron ml-auto-p2"></i>
-						</div>
-					</div>
-
-				</Row>
-			</Container>
 
 		</div>
 	)
