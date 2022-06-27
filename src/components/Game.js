@@ -1,13 +1,13 @@
 import { useState } from 'react';
-import { useLocation } from "react-router-dom";
+import { useLocation, Link } from "react-router-dom";
 import Button from "react-bootstrap/Button";
 import {GAMES_URL, GAME_START_PATH, PLAYERS_URL} from "../Api";
 import JoinGame from "./JoinGame";
 import Task from "./Task";
 import Camera from "./Camera";
+import Navbar from './Nav';
+import {Container, Row } from 'react-bootstrap'
 var LocationIMG = require('../images/location.png')
-import Nav from './Nav';
-import {Container } from 'react-bootstrap'
 
 const Game = () => {
 	const location = useLocation();
@@ -189,7 +189,7 @@ const Game = () => {
 				case AVAILABLE_GAME_STATUSES.IN_PROGRESS:
 					return (<Task
 						player_session_id={playerSessionID}
-						gameID={gameID}
+						gameID={game.id}
 						cameraToggleCallback={() => {alert("Camera view toggled")}}
 					/>)
 
