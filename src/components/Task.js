@@ -39,6 +39,7 @@ const Task = (props) => {
 
 	return (
 		<div className="task">
+			<h1 className="mb-4">Found a code?</h1>
 			<div className="task-input">
 				<FormControl
 					onChange={handleChange}
@@ -48,11 +49,9 @@ const Task = (props) => {
 				/>
 				<i className="bi bi-camera-fill task-camera-btn" onClick={props.cameraToggleCallback}></i>
 			</div>
-			<div className="qr-code-buttons">
-				<Button className="validate-code-btn w-100" onClick={props.cameraToggleCallback}>
-					Appraise
-				</Button>
-			</div>
+			<Button className="validate-code-btn w-100" onClick={props.cameraToggleCallback}>
+				Appraise
+			</Button>
 		</div>
 	);
 };

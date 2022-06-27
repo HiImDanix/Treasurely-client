@@ -2,7 +2,7 @@
 @import url(https://fonts.googleapis.com/css2?family=Righteous&family=Yellowtail&display=swap);
 @import url('https://fonts.googleapis.com/css2?family=Open+Sans&display=swap');
 // Colors
-$background-color:  #14161a;
+$background-color:  #282c34;
 $primary: #ff6004;
 $card-color: #edf0f7;
 
@@ -31,8 +31,7 @@ $navbar-height: 60px;
 
 .nav {
 	max-height: $navbar-height;
-	background: linear-gradient(90deg, $primary, #FF754F);
-	box-shadow: 0px 3px 4px 3px rgba(0, 0, 0, 0.2);
+	background-color: lighten($color: $background-color, $amount: 5);
 }
 
 .nav a {
@@ -53,15 +52,6 @@ $navbar-height: 60px;
 	color: #61dafb;
 }
 
-.task {
-	margin: 10px;
-	display: flex;
-	box-sizing: border-box;
-	align-items: center;
-	flex-direction: column;
-	width: 300px;
-}
-
 .validate-code-btn {
 	width: 100%;
 	color: white;
@@ -69,6 +59,7 @@ $navbar-height: 60px;
 	font-size: 1.2rem;
 	margin-top: 12px;
 }
+
 
 .login-button, .name-button, .task-checkButton {
 	color: white;
@@ -95,7 +86,7 @@ $navbar-height: 60px;
 
 .login-card, .name-card {
 	margin: 0 auto;
-	width: 300px;
+	max-width: 300px;
 	height: min-content;
 	padding: 10px;
 	border-radius: 5px;
@@ -146,10 +137,6 @@ $navbar-height: 60px;
 	margin-right: auto;
 }
 
-.game-playersTitle {
-	margin: 15px;
-}
-
 .players-list {
 	display: grid;
 	font-size: 1.5rem;
@@ -189,33 +176,20 @@ $navbar-height: 60px;
 	opacity: 0.2;
 }
 
-.mission {
-	margin: 10px;
-	max-width: 600px;
-	margin-left: auto;
-	margin-right: auto;
-}
-
 .mission-card {
-	display: flex;
 	align-items: center;
 	background-color: lighten($color: $background-color, $amount: 5);
 	margin: 20px auto 0 auto;
 	padding: 15px 5px 15px 15px;
 	cursor: pointer;
-	width: 100%;
+}
+.mission-card img {
+	height: 50px;
+	width: auto;
+	position: relative;
 }
 
-.game-container {
-	padding: 10px;
-	display: flex;
-	flex-wrap: wrap;
-	flex-direction: column;
-	justify-content: center;
-	align-items: center;
-}
-
-.mission-chevron {
+.mission-card-chevron {
 	font-size: 1.5em;
 	margin-left: auto;
 }
@@ -281,4 +255,21 @@ $navbar-height: 60px;
 	border: 2px solid rgba($color: white, $alpha: 0.5);
 	transform: translate(-50%, -50%);
 	top: 50%;
+}
+.task-camera-btn {
+	position:absolute;
+	padding-left:20px;
+	padding-right:20px;
+	font-size:1.8rem;
+	opacity:0.8;
+	color:black;
+	right:-1px;
+	bottom:-1px;
+}
+.task-camera-btn:hover {
+	opacity:1;
+	cursor:pointer;
+}
+.game-container {
+	max-width:600px;
 }

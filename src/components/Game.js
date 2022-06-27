@@ -138,19 +138,23 @@ const Game = () => {
 
 	const getMissions = () => {
 		return (
-			<div className="mission">
+			<div>
 				<h1>Missions</h1>
 
-				<div className="mission-card" onClick={() => alert("Open task page")}>
-					<i class="cursor bi bi-cursor-fill"></i>
-					<div className="mission-text">Enjoy the view of the iceberg from the favourite lookout.Enjoy the view of the iceberg from the favourite lookout.</div>
-					<i className="bi-chevron-compact-right mission-chevron ml-auto-p2"></i>
+				<div className="mission-card d-flex" onClick={() => alert("Open task page")}>
+					<img alt="Take a photo task" className="rounded-circle float-start rounded-circle" src={LocationIMG}></img>
+					<div className="flex-grow-1 ps-3 text-start">Enjoy the view of the iceberg from the favourite lookout.Enjoy the view of the iceberg from the favourite lookout.</div>
+					<div className="vertical-center-icon-parent">
+						<i className="bi-chevron-compact-right mission-card-chevron ml-auto-p2"></i>
+					</div>
 				</div>
 
-				<div className="mission-card" onClick={() => alert("Open task page")}>
-					<i class="cursor bi bi-cursor-fill"></i>
-					<div className="mission-text">Find the missing leg for 'big bug'</div>
-					<i className="bi-chevron-compact-right mission-chevron ml-auto-p2"></i>
+				<div className="mission-card d-flex" onClick={() => alert("Open task page")}>
+					<img alt="Take a photo task" className="rounded-circle float-start rounded-circle" src={LocationIMG}></img>
+					<div className="flex-grow-1 ps-3 text-start">Find the missing leg for 'big bug'</div>
+					<div className="vertical-center-icon-parent">
+						<i className="bi-chevron-compact-right mission-card-chevron ml-auto-p2"></i>
+					</div>
 				</div>
 			</div>
 
@@ -225,30 +229,12 @@ const Game = () => {
 
 	const getGameView = () => {
 		return <Container  className="game-container">
-			<Row className="mt-4">
+			<div className="mt-4">
 				{getPageBody()}
-			</Row>
-			<Row className="mt-5">
-
-				<h1>Missions</h1>
-
-				<div className="mission-card d-flex" onClick={() => alert("Open task page")}>
-					<img alt="Take a photo task" className="rounded-circle float-start rounded-circle" src={LocationIMG}></img>
-					<div className="flex-grow-1 ps-3 text-start">Enjoy the view of the iceberg from the favourite lookout.Enjoy the view of the iceberg from the favourite lookout.</div>
-					<div className="vertical-center-icon-parent">
-						<i className="bi-chevron-compact-right mission-card-chevron ml-auto-p2"></i>
-					</div>
-				</div>
-
-				<div className="mission-card d-flex" onClick={() => alert("Open task page")}>
-					<img alt="Take a photo task" className="rounded-circle float-start rounded-circle" src={LocationIMG}></img>
-					<div className="flex-grow-1 ps-3 text-start">Find the missing leg for 'big bug'</div>
-					<div className="vertical-center-icon-parent">
-						<i className="bi-chevron-compact-right mission-card-chevron ml-auto-p2"></i>
-					</div>
-				</div>
-
-			</Row>
+			</div>
+			<div className="mt-5">
+				{getMissions()}
+			</div>
 		</Container>
 	}
 
