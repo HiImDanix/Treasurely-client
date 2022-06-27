@@ -2,6 +2,7 @@ import { useState } from "react";
 import Button from "react-bootstrap/Button";
 import FormControl from "react-bootstrap/FormControl";
 import {GAMES_URL} from "../Api";
+import Camera from "./Camera";
 
 const Task = (props) => {
 

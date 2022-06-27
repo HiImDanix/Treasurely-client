@@ -1,15 +1,13 @@
-import { useState, useEffect } from 'react';
-import {Link, useLocation} from "react-router-dom";
-import Navbar from "react-bootstrap/Navbar";
+import { useState } from 'react';
+import { useLocation } from "react-router-dom";
 import Button from "react-bootstrap/Button";
-import {Container , Row, Col} from 'react-bootstrap'
 import {GAMES_URL, GAME_START_PATH, PLAYERS_URL} from "../Api";
 import JoinGame from "./JoinGame";
 import Task from "./Task";
 import Camera from "./Camera";
-
 var LocationIMG = require('../images/location.png')
-
+import Nav from './Nav';
+import {Container } from 'react-bootstrap'
 
 const Game = () => {
 	const location = useLocation();
@@ -30,11 +28,12 @@ const Game = () => {
 	const [playerSessionID, setPlayerSessionID] = useState(localStorage.getItem('PLAYER_SESSION_ID'));
 
 	// Game state
-	const [gameID, setGameID] = useState(propsGame.id);
-	const [gameCode, setGameCode] = useState(propsGame.code);
-	const [gameStatus, setGameStatus] = useState(propsGame.status);
-
-	const [players, setPlayers] = useState(propsGame.players);
+	const [game, setGame] = useState({
+		id: propsGame.id,
+		code: propsGame.code,
+		status: propsGame.status,
+		players: propsGame.players
+	});
 
 	// VIEWS
 	const [cameraView, setCameraView] = useState(false);
@@ -43,8 +42,9 @@ const Game = () => {
 
 	// try to join the game with the player's session ID that is stored in local storage.
 	const joinExistingGame = () => {
-		if (playerSessionID) {
-			fetch(`${PLAYERS_URL}?
+		console.log("run " + playerSessionID);
+		if (playerSessionID && playerName === "") {
+			fetch(`${GAMES_URL}/${game.id}/players?
 				${new URLSearchParams({player_session_id: playerSessionID})}`)
 				.then(async response => {
 					console.log(response);
@@ -55,14 +55,14 @@ const Game = () => {
 						console.log("Previous game not found");
 					}
 				} ).catch(error => {
-				console.log("Failed to join previous game");
-			})
+					console.log("Failed to join previous game");
+				})
 		}
 	};
 
 	// Tell API to start the game
 	const handleStartGameButton = async () => {
-		await fetch(`${GAMES_URL}/${gameID}` + GAME_START_PATH,
+		await fetch(`${GAMES_URL}/${game.id}` + GAME_START_PATH,
 			{
 				method: "POST"
 			})
@@ -86,7 +86,7 @@ const Game = () => {
 
 		await new Promise(resolve => setTimeout(resolve, 1000));
 
-		let response = await fetch(GAMES_URL + "?" + new URLSearchParams({ code: gameCode}))
+		let response = await fetch(GAMES_URL + "?" + new URLSearchParams({ code: game.code}))
 
 		if (response.status === 502) {
 			await executeGameLoop(); // Status 502 is a connection timeout error
@@ -97,26 +97,63 @@ const Game = () => {
 			await executeGameLoop();
 		} else {
 			// update local game state
-			let game = await response.json();
+			let data = await response.json();
 
-			console.log(game)
-			if (game.status && gameStatus != game.status) {
-				setGameStatus(game.status);
+			console.log(data)
+			if (data.status && game.status != data.status) {
+				updateGame("status", data.status);
 			}
 
-			if (players != game.players) {
-				setPlayers(game.players);
+			if (game.players != data.players) {
+				updateGame("players", data.players);
 			}
 
 			await executeGameLoop();
 		}
 	};
 
+	const updateGame = (name, value) => {
+		setGame(prevGame => {
+			return {
+				...prevGame,
+				[name]: value 
+			}
+		})
+	}
+
 	const getPlayersList = () => {
 		return (
 			<div className="players-list">
-				{players.map(player => <p>{player.name}</p>)}
+				{game.players.map(player => {
+					return (
+						<div className='player'>
+							<i className="bi bi-emoji-laughing player-emoji"></i>
+							<p className='player-name'>{player.name}</p>
+						</div>
+					)
+				})}
 			</div>
+		)
+	}
+
+	const getMissions = () => {
+		return (
+			<div className="mission">
+				<h1>Missions</h1>
+
+				<div className="mission-card" onClick={() => alert("Open task page")}>
+					<i class="cursor bi bi-cursor-fill"></i>
+					<div className="mission-text">Enjoy the view of the iceberg from the favourite lookout.Enjoy the view of the iceberg from the favourite lookout.</div>
+					<i className="bi-chevron-compact-right mission-chevron ml-auto-p2"></i>
+				</div>
+
+				<div className="mission-card" onClick={() => alert("Open task page")}>
+					<i class="cursor bi bi-cursor-fill"></i>
+					<div className="mission-text">Find the missing leg for 'big bug'</div>
+					<i className="bi-chevron-compact-right mission-chevron ml-auto-p2"></i>
+				</div>
+			</div>
+
 		)
 	}
 
@@ -127,14 +164,14 @@ const Game = () => {
 		if (playerName === "") {
 			return (
 				<JoinGame
-					gameCode={gameCode}
-					gameID={gameID}
+					gameCode={game.code}
+					gameID={game.id}
 					setPlayerName={setPlayerName}
 					setPlayerSessionID={setPlayerSessionID}
 				/>
 			)
 		} else {
-			switch (gameStatus) {
+			switch (game.status) {
 				case AVAILABLE_GAME_STATUSES.NOT_STARTED:
 					return (
 						(
@@ -144,7 +181,7 @@ const Game = () => {
 								<Button
 									className="white"
 									onClick={handleStartGameButton}
-									style={{margin: "10px"}}
+									style={{margin: "30px"}}
 								>Start game</Button>
 							</div>
 						)
@@ -224,7 +261,6 @@ const Game = () => {
 		<div className="game">
 			{getPageHeader()}
 			{cameraView ? getCameraView() : getGameView()}
-
 
 		</div>
 	)
