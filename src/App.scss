@@ -54,7 +54,7 @@ $navbar-height: 60px;
 	color: #61dafb;
 }
 
-.validate-code-btn {
+.task-btn {
 	width: 100%;
 	color: white;
 	border-radius: 3px;
@@ -83,6 +83,7 @@ $navbar-height: 60px;
 }
 
 .task-input {
+	width: 100%;
 	position:relative;
 }
 
@@ -178,24 +179,27 @@ $navbar-height: 60px;
 	opacity: 0.2;
 }
 
+.mission {
+	margin: 10px;
+	max-width: 600px;
+	margin-left: auto;
+	margin-right: auto;
+}
+
 .mission-card {
+	display: flex;
 	align-items: center;
 	background-color: lighten($color: $background-color-lighter, $amount: 5);
 	margin: 20px auto 0 auto;
 	padding: 15px 5px 15px 15px;
 	cursor: pointer;
 }
-.mission-card img {
-	height: 50px;
-	width: auto;
-	position: relative;
-}
 
 .game {
 	background-color: $background-color-lighter;
 }
 
-.mission-card-chevron {
+.mission-chevron {
 	font-size: 1.5em;
 	margin-left: auto;
 }
@@ -262,6 +266,16 @@ $navbar-height: 60px;
 	transform: translate(-50%, -50%);
 	top: 50%;
 }
+
+.task {
+	margin: 10px;
+	display: flex;
+	box-sizing: border-box;
+	align-items: center;
+	flex-direction: column;
+	width: 300px;
+}
+
 .task-camera-btn {
 	position:absolute;
 	padding-left:20px;
@@ -272,10 +286,17 @@ $navbar-height: 60px;
 	right:-1px;
 	bottom:-1px;
 }
+
 .task-camera-btn:hover {
 	opacity:1;
 	cursor:pointer;
 }
+
 .game-container {
-	max-width:600px;
+	padding: 10px;
+	display: flex;
+	flex-wrap: wrap;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
 }

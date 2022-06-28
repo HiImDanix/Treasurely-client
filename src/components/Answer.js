@@ -2,9 +2,8 @@ import { useState } from "react";
 import Button from "react-bootstrap/Button";
 import FormControl from "react-bootstrap/FormControl";
 import {GAMES_URL} from "../Api";
-import Camera from "./Camera";
 
-const Task = (props) => {
+const Answer = (props) => {
 
 	const [value, setValue] = useState("");
 
@@ -18,23 +17,26 @@ const Task = (props) => {
 			${new URLSearchParams({qr_code: value, player_session_id: props.player_session_id})}`,
 			{
 				method: "POST"
-			})
-			.then(async response => {
-				console.log(response);
-				if (response.ok) {
-					const resp = await response.text();
-					if (resp === "true") {
-						alert("Correct!");
-					} else {
-						alert("Wrong");
-					}
+			}
+		).then(async response => {
+			console.log(response);
 
+			if (response.ok) {
+				const resp = await response.text();
+
+				if (resp === "true") {
+					alert("Correct!");
 				} else {
-					alert("Error. Already answered or could not submit.");
+					alert("Wrong");
 				}
-			}).catch(error => {
-				console.log(error);
-			})
+
+			} else {
+				alert("Error. Already answered or could not submit.");
+			}
+
+		}).catch(error => {
+			console.log(error);
+		})
 	};
 
 	return (
@@ -49,11 +51,11 @@ const Task = (props) => {
 				/>
 				<i className="bi bi-camera-fill task-camera-btn" onClick={props.cameraToggleCallback}></i>
 			</div>
-			<Button className="validate-code-btn w-100" onClick={props.cameraToggleCallback}>
+			<Button className="task-btn" onClick={handleAnswer}>
 				Appraise
 			</Button>
 		</div>
 	);
 };
 
-export default Task;
+export default Answer;

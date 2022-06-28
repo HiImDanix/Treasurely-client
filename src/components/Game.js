@@ -1,13 +1,13 @@
-import { useState } from 'react';
-import { useLocation, Link } from "react-router-dom";
+import {useState} from 'react';
+import {Container} from 'react-bootstrap';
 import Button from "react-bootstrap/Button";
-import {GAMES_URL, GAME_START_PATH, PLAYERS_URL} from "../Api";
-import JoinGame from "./JoinGame";
-import Task from "./Task";
+import {useLocation} from "react-router-dom";
+import {GAMES_URL, GAME_START_PATH} from "../Api";
 import Camera from "./Camera";
-import Navbar from './Nav';
-import {Container, Row } from 'react-bootstrap'
-var LocationIMG = require('../images/location.png')
+import JoinGame from "./JoinGame";
+import Nav from "./Nav";
+import Answer from "./Answer";
+import Mission from "./Mission";
 
 const Game = () => {
 	const location = useLocation();
@@ -42,38 +42,43 @@ const Game = () => {
 
 	// try to join the game with the player's session ID that is stored in local storage.
 	const joinExistingGame = () => {
-		console.log("run " + playerSessionID);
 		if (playerSessionID && playerName === "") {
+
 			fetch(`${GAMES_URL}/${game.id}/players?
-				${new URLSearchParams({player_session_id: playerSessionID})}`)
-				.then(async response => {
-					console.log(response);
-					if (response.ok) {
-						const player = await response.json();
-						setPlayerName(player.name);
-					} else {
-						console.log("Previous game not found");
-					}
-				} ).catch(error => {
-					console.log("Failed to join previous game");
-				})
+				${new URLSearchParams({player_session_id: playerSessionID})}`
+
+			).then(async response => {
+				console.log(response);
+
+				if (response.ok) {
+					const player = await response.json();
+					setPlayerName(player.name);
+
+				} else {
+					console.log("Previous game not found");
+				}
+
+			} ).catch(error => {
+				console.log("Failed to join previous game");
+			})
 		}
 	};
 
 	// Tell API to start the game
 	const handleStartGameButton = async () => {
 		await fetch(`${GAMES_URL}/${game.id}` + GAME_START_PATH,
-			{
-				method: "POST"
-			})
-			.then(response => {
-				console.log(response);
-				if (response.ok) {
-					console.log("started")
-				}
-			}).catch(error => {
-				console.log(error);
-			})
+			{ method: "POST" }
+
+		).then(response => {
+			console.log(response);
+
+			if (response.ok) {
+				console.log("started")
+			}
+
+		}).catch(error => {
+			console.log(error);
+		})
 	}
 
 	// Retrieve information about the current game, in a recursive loop
@@ -136,30 +141,6 @@ const Game = () => {
 		)
 	}
 
-	const getMissions = () => {
-		return (
-			<div>
-				<h1>Missions</h1>
-
-				<div className="mission-card d-flex" onClick={() => alert("Open task page")}>
-					<img alt="Take a photo task" className="rounded-circle float-start rounded-circle" src={LocationIMG}></img>
-					<div className="flex-grow-1 ps-3 text-start">Enjoy the view of the iceberg from the favourite lookout.Enjoy the view of the iceberg from the favourite lookout.</div>
-					<div className="vertical-center-icon-parent">
-						<i className="bi-chevron-compact-right mission-card-chevron ml-auto-p2"></i>
-					</div>
-				</div>
-
-				<div className="mission-card d-flex" onClick={() => alert("Open task page")}>
-					<img alt="Take a photo task" className="rounded-circle float-start rounded-circle" src={LocationIMG}></img>
-					<div className="flex-grow-1 ps-3 text-start">Find the missing leg for 'big bug'</div>
-					<div className="vertical-center-icon-parent">
-						<i className="bi-chevron-compact-right mission-card-chevron ml-auto-p2"></i>
-					</div>
-				</div>
-			</div>
-
-		)
-	}
 
 	const getPageBody = () => {
 		joinExistingGame();
@@ -191,11 +172,13 @@ const Game = () => {
 						)
 					)
 				case AVAILABLE_GAME_STATUSES.IN_PROGRESS:
-					return (<Task
-						player_session_id={playerSessionID}
-						gameID={game.id}
-						cameraToggleCallback={() => {alert("Camera view toggled")}}
-					/>)
+					return (
+						<Answer
+							player_session_id={playerSessionID}
+							gameID={game.id}
+							cameraToggleCallback={() => {alert("Camera view toggled")}}
+						/>
+					)
 
 				case AVAILABLE_GAME_STATUSES.PAUSED:
 					return (
@@ -210,42 +193,39 @@ const Game = () => {
 						</div>
 					)
 			}
-
 		}
 	}
 
-	const getPageHeader = () => {
-		return <Navbar className="nav">
-				<Container>
-					<Navbar.Brand style={{cursor: "default"}}>
-						<h2 className="nav-logo logo">Treasurely</h2>
-					</Navbar.Brand>
-					<Navbar.Text>
-						<Link className={"link-light"} to="/">Leave</Link>
-					</Navbar.Text>
-				</Container>
-			</Navbar>
+	const getMissions = () => {
+		return (
+			<div className="mission">
+				<h1>Missions</h1>
+				<Mission text={"Enjoy the view of the iceberg from the favourite lookout. Enjoy the view of the iceberg from the favourite lookout."}/>
+
+				<Mission text={"Find the missing leg for 'big bug'"}/>
+
+			</div>
+		)
 	}
 
 	const getGameView = () => {
-		return <Container  className="game-container">
-			<div className="mt-4">
-				{getPageBody()}
-			</div>
-			<div className="mt-5">
-				{getMissions()}
-			</div>
-		</Container>
+		return (
+			<Container className="game-container">
+					{getMissions()}
+					{getPageBody()}
+			</Container>
+		)
 	}
 
 	const getCameraView = () => {
-		return <Camera></Camera>
+		return (
+			<Camera />
+		)
 	}
-
 
 	return (
 		<div className="game">
-			{getPageHeader()}
+			<Nav />
 			{cameraView ? getCameraView() : getGameView()}
 
 		</div>
