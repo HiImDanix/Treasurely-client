@@ -224,7 +224,7 @@ const Game = () => {
 
 	return (
 		<div className="game">
-			<Nav />
+			<Nav isLoggedIn={playerName !== ""} />
 			{cameraView ? getCameraView() : getGameView()}
 
 		</div>
