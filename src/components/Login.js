@@ -14,7 +14,6 @@ const Login = () => {
 	}
 
 	const joinGame = async () => {
-
 		await fetch(GAMES_URL + "?" + new URLSearchParams({ code: gameCode }))
 			.then(async res => {
 				if (res.ok) {
