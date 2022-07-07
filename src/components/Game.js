@@ -2,7 +2,7 @@ import {useState} from 'react';
 import {Container} from 'react-bootstrap';
 import Button from "react-bootstrap/Button";
 import {useLocation} from "react-router-dom";
-import {GAMES_URL, GAME_START_PATH} from "../Api";
+import {GAMES_URL, PLAYERS_URL, GAME_START_PATH} from "../Api";
 import Camera from "./Camera";
 import JoinGame from "./JoinGame";
 import Nav from "./Nav";
@@ -44,15 +44,15 @@ const Game = () => {
 	const joinExistingGame = () => {
 		if (playerSessionID && playerName === "") {
 
-			fetch(`${GAMES_URL}/${game.id}/players?
-				${new URLSearchParams({player_session_id: playerSessionID})}`
+			fetch(`${PLAYERS_URL}/${playerSessionID}/game`
 
 			).then(async response => {
 				console.log(response);
 
 				if (response.ok) {
-					const player = await response.json();
-					setPlayerName(player.name);
+					const game = await response.json();
+					setPlayerName(game.players[0].name);
+					setGame(game);
 
 				} else {
 					console.log("Previous game not found");
@@ -105,11 +105,11 @@ const Game = () => {
 			let data = await response.json();
 
 			console.log(data)
-			if (data.status && game.status != data.status) {
+			if (data.status && game.status !== data.status) {
 				updateGame("status", data.status);
 			}
 
-			if (game.players != data.players) {
+			if (game.players !== data.players) {
 				updateGame("players", data.players);
 			}
 
