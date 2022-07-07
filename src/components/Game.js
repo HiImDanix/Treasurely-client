@@ -141,6 +141,17 @@ const Game = () => {
 		)
 	}
 
+	const getMissions = () => {
+		return (
+			<div className="mission">
+				<h1>Missions</h1>
+				<Mission text={"Enjoy the view of the iceberg from the favourite lookout. Enjoy the view of the iceberg from the favourite lookout."}/>
+
+				<Mission text={"Find the missing leg for 'big bug'"}/>
+
+			</div>
+		)
+	}
 
 	const getPageBody = () => {
 		joinExistingGame();
@@ -172,13 +183,14 @@ const Game = () => {
 						)
 					)
 				case AVAILABLE_GAME_STATUSES.IN_PROGRESS:
-					return (
-						<Answer
-							player_session_id={playerSessionID}
-							gameID={game.id}
-							cameraToggleCallback={() => {alert("Camera view toggled")}}
-						/>
-					)
+					return <>
+								<Answer
+									player_session_id={playerSessionID}
+									gameID={game.id}
+									cameraToggleCallback={() => {alert("Camera view toggled")}}
+								/>
+								{getMissions()}
+							</>
 
 				case AVAILABLE_GAME_STATUSES.PAUSED:
 					return (
@@ -196,22 +208,9 @@ const Game = () => {
 		}
 	}
 
-	const getMissions = () => {
-		return (
-			<div className="mission">
-				<h1>Missions</h1>
-				<Mission text={"Enjoy the view of the iceberg from the favourite lookout. Enjoy the view of the iceberg from the favourite lookout."}/>
-
-				<Mission text={"Find the missing leg for 'big bug'"}/>
-
-			</div>
-		)
-	}
-
 	const getGameView = () => {
 		return (
 			<Container className="game-container">
-					{getMissions()}
 					{getPageBody()}
 			</Container>
 		)
