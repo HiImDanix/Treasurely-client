@@ -1,6 +1,5 @@
 import {useEffect, useRef, useState} from "react";
 import Button from "react-bootstrap/Button";
-import {QrReader} from "react-qr-reader";
 
 const Camera = (props) => {
 	const [open, setOpen] = useState(false);
@@ -41,7 +40,7 @@ const Camera = (props) => {
 			</Button>
 			{
 				open && (
-						<QrReader
+						<div
 							className="camera-reader"
 							videoStyle={{
 								objectFit: "cover",

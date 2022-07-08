@@ -1,7 +1,7 @@
 import {useState} from "react";
 import Button from "react-bootstrap/Button";
 import FormControl from "react-bootstrap/FormControl"
-import { GAMES_URL } from "../Api";
+import {GAMES_URL, PLAYERS_URL} from "../Api";
 
 const JoinGame = (props) => {
 	const [name, setName] = useState("");
@@ -20,10 +20,9 @@ const JoinGame = (props) => {
 
 				if (response.ok) {
 					const player = await response.json();
-
 					localStorage.setItem('PLAYER_SESSION_ID', player.playerSessionID);
-					props.setPlayerName(name);
-					props.setPlayerSessionID([player.playerSessionID]);
+					props.setSessionID([player.playerSessionID]);
+					props.setUsername(name);
 				}
 
 			}).catch(error => {
@@ -37,7 +36,9 @@ const JoinGame = (props) => {
 	}
 
 	return (
-		<div className="name-enter">
+		<div className="login-page">
+			<h2 className="login-logo">Treasurely</h2>
+
 			<h1 className="name-title">What shall we call you?</h1>
 
 			<div className="name-card">

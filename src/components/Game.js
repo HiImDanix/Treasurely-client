@@ -9,10 +9,8 @@ import Nav from "./Nav";
 import Answer from "./Answer";
 import Mission from "./Mission";
 
-const Game = () => {
-	const location = useLocation();
-	const propsGame = location.state;
-	let gameLoopRunning = false;
+const Game = (props) => {
+	let isGameLoopRunning = true;
 
 	// States that the game can be in
 	const AVAILABLE_GAME_STATUSES = {
@@ -23,46 +21,22 @@ const Game = () => {
 	}
 
 	// Player state
-	const [playerName, setPlayerName] = useState("");
+	const [playerName, setPlayerName] = useState(props.username);
 	// sessionID must be verified using the API before it can be used
-	const [playerSessionID, setPlayerSessionID] = useState(localStorage.getItem('PLAYER_SESSION_ID'));
+	const [playerSessionID, setPlayerSessionID] = useState(props.sessionID);
 
 	// Game state
 	const [game, setGame] = useState({
-		id: propsGame.id,
-		code: propsGame.code,
-		status: propsGame.status,
-		players: propsGame.players
+		id: null,
+		code: null,
+		status: null,
+		players: null
 	});
 
 	// VIEWS
 	const [cameraView, setCameraView] = useState(false);
 	const [joinGameView, setJoinGameView] = useState(false);
 
-
-	// try to join the game with the player's session ID that is stored in local storage.
-	const joinExistingGame = () => {
-		if (playerSessionID && playerName === "") {
-
-			fetch(`${PLAYERS_URL}/${playerSessionID}/game`
-
-			).then(async response => {
-				console.log(response);
-
-				if (response.ok) {
-					const game = await response.json();
-					setPlayerName(game.players[0].name);
-					setGame(game);
-
-				} else {
-					console.log("Previous game not found");
-				}
-
-			} ).catch(error => {
-				console.log("Failed to join previous game");
-			})
-		}
-	};
 
 	// Tell API to start the game
 	const handleStartGameButton = async () => {
@@ -83,39 +57,37 @@ const Game = () => {
 
 	// Retrieve information about the current game, in a recursive loop
 	const executeGameLoop = async () => {
-		if (playerName === "" || gameLoopRunning) {
-			return;
+		async function gameLoop() {
+			let response = await fetch(`${PLAYERS_URL}/${playerSessionID}/game`);
+
+			if (response.status === 502) {
+				console.log("Server error");
+				// Status 502 is a connection timeout error
+			} else if (response.status !== 200) {
+				// An error - let's show it
+				console.log(response.statusText);
+			} else {
+				// update local game state
+				let data = await response.json();
+
+				console.log(data)
+				if (data.status && game.status !== data.status) {
+					updateGame("status", data.status);
+				}
+
+				if (game.players !== data.players) {
+					updateGame("players", data.players);
+				}
+			}
+		}
+		const delay = ms => new Promise(r => setTimeout(r, ms));
+		while (isGameLoopRunning) {
+			await delay(1000);
+			await gameLoop();
 		}
 
-		gameLoopRunning = true;
-
-		await new Promise(resolve => setTimeout(resolve, 1000));
-
-		let response = await fetch(GAMES_URL + "?" + new URLSearchParams({ code: game.code}))
-
-		if (response.status === 502) {
-			await executeGameLoop(); // Status 502 is a connection timeout error
-		} else if (response.status !== 200) {
-			// An error - let's show it
-			console.log(response.statusText);
-			// Reconnect in one second
-			await executeGameLoop();
-		} else {
-			// update local game state
-			let data = await response.json();
-
-			console.log(data)
-			if (data.status && game.status !== data.status) {
-				updateGame("status", data.status);
-			}
-
-			if (game.players !== data.players) {
-				updateGame("players", data.players);
-			}
-
-			await executeGameLoop();
-		}
 	};
+	executeGameLoop()
 
 	const updateGame = (name, value) => {
 		setGame(prevGame => {
@@ -154,57 +126,43 @@ const Game = () => {
 	}
 
 	const getPageBody = () => {
-		joinExistingGame();
-		executeGameLoop();
-
-		if (playerName === "") {
-			return (
-				<JoinGame
-					gameCode={game.code}
-					gameID={game.id}
-					setPlayerName={setPlayerName}
-					setPlayerSessionID={setPlayerSessionID}
-				/>
-			)
-		} else {
-			switch (game.status) {
-				case AVAILABLE_GAME_STATUSES.NOT_STARTED:
-					return (
-						(
-							<div className="game-players">
-								<h2>Players:</h2>
-								{getPlayersList()}
-								<Button
-									className="white"
-									onClick={handleStartGameButton}
-									style={{margin: "30px"}}
-								>Start game</Button>
-							</div>
-						)
-					)
-				case AVAILABLE_GAME_STATUSES.IN_PROGRESS:
-					return <>
-								<Answer
-									player_session_id={playerSessionID}
-									gameID={game.id}
-									cameraToggleCallback={() => {alert("Camera view toggled")}}
-								/>
-								{getMissions()}
-							</>
-
-				case AVAILABLE_GAME_STATUSES.PAUSED:
-					return (
-						<div>
-							<p>PAUSED</p>
+		switch (game.status) {
+			case AVAILABLE_GAME_STATUSES.NOT_STARTED:
+				return (
+					(
+						<div className="game-players">
+							<h2>Players:</h2>
+							{getPlayersList()}
+							<Button
+								className="white"
+								onClick={handleStartGameButton}
+								style={{margin: "30px"}}
+							>Start game</Button>
 						</div>
 					)
-				case AVAILABLE_GAME_STATUSES.FINISHED:
-					return (
-						<div>
-							<p>FINISHED</p>
-						</div>
-					)
-			}
+				)
+			case AVAILABLE_GAME_STATUSES.IN_PROGRESS:
+				return <>
+							<Answer
+								player_session_id={playerSessionID}
+								gameID={game.id}
+								cameraToggleCallback={() => {alert("Camera view toggled")}}
+							/>
+							{getMissions()}
+						</>
+
+			case AVAILABLE_GAME_STATUSES.PAUSED:
+				return (
+					<div>
+						<p>PAUSED</p>
+					</div>
+				)
+			case AVAILABLE_GAME_STATUSES.FINISHED:
+				return (
+					<div>
+						<p>FINISHED</p>
+					</div>
+				)
 		}
 	}
 
