@@ -1,10 +1,8 @@
-import {useState} from 'react';
+import {useEffect, useState} from 'react';
 import {Container} from 'react-bootstrap';
 import Button from "react-bootstrap/Button";
-import {useLocation} from "react-router-dom";
 import {GAMES_URL, PLAYERS_URL, GAME_START_PATH} from "../Api";
 import Camera from "./Camera";
-import JoinGame from "./JoinGame";
 import Nav from "./Nav";
 import Answer from "./Answer";
 import Mission from "./Mission";
@@ -17,25 +15,27 @@ const Game = (props) => {
 		NOT_STARTED: "NOT_STARTED",
 		IN_PROGRESS: "IN_PROGRESS",
 		PAUSED: "PAUSED",
-		FINISHED: "FINISHED"
+		FINISHED: "FINISHED",
+		JOINING: "JOINING"
 	}
-
-	// Player state
-	const [playerName, setPlayerName] = useState(props.username);
-	// sessionID must be verified using the API before it can be used
-	const [playerSessionID, setPlayerSessionID] = useState(props.sessionID);
 
 	// Game state
 	const [game, setGame] = useState({
 		id: null,
 		code: null,
-		status: null,
+		status: AVAILABLE_GAME_STATUSES.JOINING,
 		players: null
 	});
 
+	const playerSessionID = props.sessionID;
+
 	// VIEWS
-	const [cameraView, setCameraView] = useState(false);
-	const [joinGameView, setJoinGameView] = useState(false);
+	const AVAILABLE_VIEWS = {
+		CAMERA: "CAMERA",
+		CONTENT: "CONTENT"
+	};
+
+	const [currentView, setCurrentView] = useState(AVAILABLE_VIEWS.CONTENT);
 
 
 	// Tell API to start the game
@@ -54,6 +54,11 @@ const Game = (props) => {
 			console.log(error);
 		})
 	}
+
+	// Run only once
+	useEffect(() => {
+		executeGameLoop()
+	}, []);
 
 	// Retrieve information about the current game, in a recursive loop
 	const executeGameLoop = async () => {
@@ -80,14 +85,15 @@ const Game = (props) => {
 				}
 			}
 		}
+
 		const delay = ms => new Promise(r => setTimeout(r, ms));
+
 		while (isGameLoopRunning) {
 			await delay(1000);
 			await gameLoop();
 		}
-
 	};
-	executeGameLoop()
+
 
 	const updateGame = (name, value) => {
 		setGame(prevGame => {
@@ -101,9 +107,9 @@ const Game = (props) => {
 	const getPlayersList = () => {
 		return (
 			<div className="players-list">
-				{game.players.map(player => {
+				{game.players.map((player, playerID) => {
 					return (
-						<div className='player'>
+						<div className='player' key={playerID}>
 							<i className="bi bi-emoji-laughing player-emoji"></i>
 							<p className='player-name'>{player.name}</p>
 						</div>
@@ -142,15 +148,16 @@ const Game = (props) => {
 					)
 				)
 			case AVAILABLE_GAME_STATUSES.IN_PROGRESS:
-				return <>
+				return (
+					<div>
 							<Answer
 								player_session_id={playerSessionID}
 								gameID={game.id}
 								cameraToggleCallback={() => {alert("Camera view toggled")}}
 							/>
 							{getMissions()}
-						</>
-
+					</div>
+				)
 			case AVAILABLE_GAME_STATUSES.PAUSED:
 				return (
 					<div>
@@ -163,15 +170,11 @@ const Game = (props) => {
 						<p>FINISHED</p>
 					</div>
 				)
+			case AVAILABLE_GAME_STATUSES.JOINING:
+				return (
+					<h1 className='name'>Joining...</h1>
+				)
 		}
-	}
-
-	const getGameView = () => {
-		return (
-			<Container className="game-container">
-					{getPageBody()}
-			</Container>
-		)
 	}
 
 	const getCameraView = () => {
@@ -180,11 +183,23 @@ const Game = (props) => {
 		)
 	}
 
+	const getGameView = () => {
+		switch (currentView) {
+			case AVAILABLE_VIEWS.CAMERA:
+				return getCameraView();
+			case AVAILABLE_VIEWS.CONTENT:
+				return (
+					<Container className="game-container">
+						{getPageBody()}
+					</Container>
+				)
+		}
+	}
+
 	return (
 		<div className="game">
-			<Nav isLoggedIn={playerName !== ""} />
-			{cameraView ? getCameraView() : getGameView()}
-
+			<Nav leaveGame={props.leaveGame} />
+			{getGameView()}
 		</div>
 	)
 }

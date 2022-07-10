@@ -1,7 +1,8 @@
 import {useState} from "react";
 import Button from "react-bootstrap/Button";
-import FormControl from "react-bootstrap/FormControl"
-import {GAMES_URL, PLAYERS_URL} from "../Api";
+import FormControl from "react-bootstrap/FormControl";
+import {GAMES_URL } from "../Api";
+import Nav from "./Nav";
 
 const JoinGame = (props) => {
 	const [name, setName] = useState("");
@@ -13,22 +14,22 @@ const JoinGame = (props) => {
 	const joinGame = async () => {
 		if (name !== "") {
 			await fetch(`${GAMES_URL}/${props.gameID}/player?
-			${new URLSearchParams({name: name, code: props.gameCode})}`, {
-				method: "POST"
+				${new URLSearchParams({name: name, code: props.gameCode})}`, {
+					method: "POST"
 
-			}).then(async response => {
+				}).then(async response => {
 
-				if (response.ok) {
-					const player = await response.json();
-					localStorage.setItem('PLAYER_SESSION_ID', player.playerSessionID);
-					props.setSessionID([player.playerSessionID]);
-					props.setUsername(name);
-				}
+					if (response.ok) {
+						const player = await response.json();
+						localStorage.setItem('PLAYER_SESSION_ID', player.playerSessionID);
+						props.setSessionID([player.playerSessionID]);
+						props.setUsername(name);
+					}
 
-			}).catch(error => {
-				console.log(error);
+				}).catch(error => {
+					console.log(error);
 
-			})
+				})
 
 		} else {
 			alert("Name cannot be empty");
@@ -36,9 +37,7 @@ const JoinGame = (props) => {
 	}
 
 	return (
-		<div className="login-page">
-			<h2 className="login-logo">Treasurely</h2>
-
+		<div className="name">
 			<h1 className="name-title">What shall we call you?</h1>
 
 			<div className="name-card">

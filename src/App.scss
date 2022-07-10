@@ -40,7 +40,7 @@ $navbar-height: 60px;
 	color: white !important;
 }
 
-.login-page, .game {
+.login-page, .game, .name {
 	box-sizing: border-box;
 	min-height: 100vh;
 	color: white;
@@ -92,14 +92,14 @@ $navbar-height: 60px;
 	background-color: $card-color;
 }
 
-.login-page, .name-enter {
+.login-page, .name-enter, .name {
 	color: white;
 	margin-top: 0;
 	letter-spacing: 2px;
 	font-size: 2.6rem;
 }
 
-.login-page, .name-enter {
+.login-page, .name-enter, .name {
 	display: flex;
 	flex-direction: column;
 	align-items: center;
@@ -111,6 +111,11 @@ $navbar-height: 60px;
 	background-position: bottom 50px right 50px;
 	background-size: cover;
 	background-image: url('./images/background.svg');
+}
+
+.name {
+	background-color: $background-color-lighter;
+	min-height: calc(100vh - $navbar-height);
 }
 
 .nav-logo {
@@ -136,8 +141,8 @@ $navbar-height: 60px;
 	display: grid;
 	font-size: 1.5rem;
 	grid-template: auto auto / repeat(3, 1fr);
-	margin-top:30px;
-	margin-bottom:40px;
+	margin-top: 30px;
+	margin-bottom: 40px;
 }
 
 .player {
@@ -146,6 +151,7 @@ $navbar-height: 60px;
 	padding: 10px;
 	width: min-content;
 	height: min-content;
+	margin: 10px;
 	margin-left: auto;
 	margin-right: auto;
 	border-radius: 5px;
