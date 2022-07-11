@@ -102,18 +102,6 @@ const Game = (props) => {
 		)
 	}
 
-	const getMissions = () => {
-		return (
-			<div className="mission">
-				<h1>Missions</h1>
-				<Mission text={"Enjoy the view of the iceberg from the favourite lookout. Enjoy the view of the iceberg from the favourite lookout."}/>
-
-				<Mission text={"Find the missing leg for 'big bug'"}/>
-
-			</div>
-		)
-	}
-
 	const getPageBody = () => {
 		switch (game.status) {
 			case AVAILABLE_GAME_STATUSES.NOT_STARTED:
@@ -132,14 +120,22 @@ const Game = (props) => {
 				)
 			case AVAILABLE_GAME_STATUSES.IN_PROGRESS:
 				return (
-					<div>
-							<Answer
-								player_session_id={playerSessionID}
-								gameID={game.id}
-								cameraToggleCallback={() => {alert("Camera view toggled")}}
-							/>
-							{getMissions()}
-					</div>
+					<>
+						<div className="mt-2 task card-container">
+								<Answer
+									player_session_id={playerSessionID}
+									gameID={game.id}
+									cameraToggleCallback={() => {alert("Camera view toggled")}}
+								/>
+						</div>
+						<div className="mt-4 card-container">
+							<h1>Missions</h1>
+							<Mission text={"Enjoy the view of the iceberg from the favourite lookout. Enjoy the view of the iceberg from the favourite lookout."}/>
+
+							<Mission text={"Find the missing leg for 'big bug'"}/>
+						</div>
+					</>
+
 				)
 			case AVAILABLE_GAME_STATUSES.PAUSED:
 				return (

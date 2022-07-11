@@ -177,11 +177,11 @@ $navbar-height: 60px;
 	opacity: 0.2;
 }
 
-.mission {
-	margin: 10px;
+.card-container {
 	max-width: 600px;
 	margin-left: auto;
 	margin-right: auto;
+	width:100%;
 }
 
 .mission-card {
@@ -263,15 +263,6 @@ $navbar-height: 60px;
 	border: 2px solid rgba($color: white, $alpha: 0.5);
 	transform: translate(-50%, -50%);
 	top: 50%;
-}
-
-.task {
-	margin: 10px;
-	display: flex;
-	box-sizing: border-box;
-	align-items: center;
-	flex-direction: column;
-	width: 300px;
 }
 
 .task-camera-btn {

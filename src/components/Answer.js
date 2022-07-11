@@ -40,7 +40,7 @@ const Answer = (props) => {
 	};
 
 	return (
-		<div className="task">
+		<>
 			<h1 className="mb-4">Found a code?</h1>
 			<div className="task-input">
 				<FormControl
@@ -54,7 +54,7 @@ const Answer = (props) => {
 			<Button className="task-btn" onClick={handleAnswer}>
 				Appraise
 			</Button>
-		</div>
+		</>
 	);
 };
 
