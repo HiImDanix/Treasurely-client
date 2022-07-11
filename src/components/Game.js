@@ -74,15 +74,8 @@ const Game = (props) => {
 			} else {
 				// update local game state
 				let data = await response.json();
-
 				console.log(data)
-				if (data.status && game.status !== data.status) {
-					updateGame("status", data.status);
-				}
-
-				if (game.players !== data.players) {
-					updateGame("players", data.players);
-				}
+				setGame(data);
 			}
 		}
 
@@ -93,16 +86,6 @@ const Game = (props) => {
 			await gameLoop();
 		}
 	};
-
-
-	const updateGame = (name, value) => {
-		setGame(prevGame => {
-			return {
-				...prevGame,
-				[name]: value 
-			}
-		})
-	}
 
 	const getPlayersList = () => {
 		return (
