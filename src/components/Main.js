@@ -10,7 +10,7 @@ const Main = () => {
 	const [sessionID, setSessionID] = useState("");
 
 	const leaveGame = async () => {
-		if (setSessionID !== "") {
+		if (sessionID !== "") {
 			await fetch(`${PLAYERS_URL}/${sessionID}`, {
 					method: "DELETE"
 				}).then(async response => {
