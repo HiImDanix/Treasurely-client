@@ -18,11 +18,11 @@ const Camera = (props) => {
 	}, []);
 
 	return (
-		<div style={{display: 'flex', flexDirection: 'column'}}>
-			<Button variant="primary" onClick={props.goBack}>
+		<div className="game-container">
+			<Button variant="primary" className="w-100" onClick={props.goBack}>
 				Go Back
 			</Button>
-			<div className="camera" style={{flexGrow:1}}>
+			<div className="camera">
 				<div id="reader"></div>
 			</div>
 		</div>

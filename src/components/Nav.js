@@ -7,7 +7,7 @@ const Nav = (props) => {
 		<Navbar className="nav">
 			<Container>
 				<Navbar.Brand style={{cursor: "default"}}>
-					<h2 className="nav-logo logo">Treasurely</h2>
+					<h2 className="logo-font">Treasurely</h2>
 				</Navbar.Brand>
 				<LeaveButton handleClick={props.leaveGame}/>
 			</Container>

@@ -1,7 +1,6 @@
 import { useState } from "react";
 import Button from "react-bootstrap/Button";
 import FormControl from "react-bootstrap/FormControl";
-import {GAMES_URL} from "../Api";
 
 const Answer = (props) => {
 
@@ -12,21 +11,21 @@ const Answer = (props) => {
 	};
 
 	return (
-		<>
+		<div className="answer">
 			<h1 className="mb-4">Found a code?</h1>
-			<div className="task-input">
+			<div className="answer-input">
 				<FormControl
 					onChange={handleChange}
 					value={value}
-					className="task-field"
+					className="field-default"
 					placeholder="Code"
 				/>
-				<i className="bi bi-camera-fill task-camera-btn" onClick={props.cameraToggleCallback}></i>
+				<i className="bi bi-camera-fill answer-camera-btn" onClick={props.cameraToggleCallback}></i>
 			</div>
-			<Button className="task-btn" onClick={(v) => props.handleAnswer(v)}>
+			<Button className="button-default" onClick={(v) => props.handleAnswer(v)}>
 				Appraise
 			</Button>
-		</>
+		</div>
 	);
 };
 

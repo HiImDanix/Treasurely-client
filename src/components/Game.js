@@ -8,8 +8,6 @@ import Answer from "./Answer";
 import Mission from "./Mission";
 
 const Game = (props) => {
-	let isGameLoopRunning = true;
-
 	// States that the game can be in
 	const AVAILABLE_GAME_STATUSES = {
 		NOT_STARTED: "NOT_STARTED",
@@ -21,10 +19,7 @@ const Game = (props) => {
 
 	// Game state
 	const [game, setGame] = useState({
-		id: null,
-		code: null,
 		status: AVAILABLE_GAME_STATUSES.JOINING,
-		players: null
 	});
 
 	// VIEWS
@@ -34,6 +29,8 @@ const Game = (props) => {
 	};
 
 	const [currentView, setCurrentView] = useState(AVAILABLE_VIEWS.GAME_CONTENT);
+
+	console.log("Render");
 
 
 	// Tell API to start the game
@@ -79,38 +76,37 @@ const Game = (props) => {
 		})
 	};
 
-	// Run only once
+	// Run game loop
 	useEffect(() => {
-		executeGameLoop()
-	}, []);
+		const interval = setInterval(function run() {
 
-	// Retrieve information about the current game, in a recursive loop
-	const executeGameLoop = async () => {
-		async function gameLoop() {
-			let response = await fetch(`${PLAYERS_URL}/${props.sessionID}/game`);
+			// Has to be a nested function because run cannot be async
+			async function updateGame(){
+				let response = await fetch(`${PLAYERS_URL}/${props.sessionID}/game`);
 
-			if (response.status === 502) {
-				console.log("Server error");
-				// Status 502 is a connection timeout error
-			} else if (response.status !== 200) {
-				// An error - let's show it
-				console.log(response.statusText);
-			} else {
-				// update local game state
-				let data = await response.json();
-				console.log(data)
-				setGame(data);
+				if (response.status === 502) {
+					console.log("Server error");
+					// Status 502 is a connection timeout error
+				} else if (response.status !== 200) {
+					// An error - let's show it
+					console.log(response.statusText);
+				} else {
+					// update local game state
+					let data = await response.json();
+
+					console.log(data)
+
+					if (JSON.stringify(data) !== JSON.stringify(game)) {
+						setGame(data);
+					}
+				}
 			}
-		}
+			updateGame();
+			return run;
+		}(), 1000); // 1000 ms 
 
-		const delay = ms => new Promise(r => setTimeout(r, ms));
-
-		while (isGameLoopRunning) {
-			console.log(props.username);
-			await delay(1000);
-			await gameLoop();
-		}
-	};
+		return () => clearInterval(interval);
+	}, [game]);
 
 	const getPlayersList = () => {
 		return (
@@ -132,13 +128,12 @@ const Game = (props) => {
 			case AVAILABLE_GAME_STATUSES.NOT_STARTED:
 				return (
 					(
-						<div className="game-players">
+						<div>
 							<h2>Players:</h2>
 							{getPlayersList()}
 							<Button
-								className="white"
 								onClick={handleStartGameButton}
-								style={{margin: "30px"}}
+								style={{color: "white", margin: "30px"}}
 							>Start game</Button>
 						</div>
 					)
@@ -146,15 +141,15 @@ const Game = (props) => {
 			case AVAILABLE_GAME_STATUSES.IN_PROGRESS:
 				return (
 					<>
-						<div className="mt-2 task card-container">
-								<Answer
-									player_session_id={props.sessionID}
-									gameID={game.id}
-									cameraToggleCallback={() => {setCurrentView(AVAILABLE_VIEWS.CAMERA)}}
-									handleAnswer={handleAnswer}
-								/>
+						<div className="mt-2 answer-container">
+							<Answer
+								player_session_id={props.sessionID}
+								gameID={game.id}
+								cameraToggleCallback={() => {setCurrentView(AVAILABLE_VIEWS.CAMERA)}}
+								handleAnswer={handleAnswer}
+							/>
 						</div>
-						<div className="mt-4 card-container">
+						<div className="mt-4 mission-container">
 							<h1>Missions</h1>
 							<Mission text={"Enjoy the view of the iceberg from the favourite lookout. Enjoy the view of the iceberg from the favourite lookout."}/>
 
@@ -177,7 +172,7 @@ const Game = (props) => {
 				)
 			case AVAILABLE_GAME_STATUSES.JOINING:
 				return (
-					<h1 className='name'>Joining...</h1>
+					<h1 className='joining'>Joining...</h1>
 				)
 		}
 	}
@@ -199,10 +194,11 @@ const Game = (props) => {
 	}
 
 	return (
-		<div className="game">
+		<>
+
 			<Nav leaveGame={props.leaveGame} />
 			{getGameView()}
-		</div>
+		</>
 	)
 }
 

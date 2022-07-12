@@ -65,18 +65,18 @@ const Login = (props) => {
 
 	const getGameCodeView = () => {
 		return (
-			<div className="login-page">
-				<h2 className="login-logo">Treasurely</h2>
+			<div className="login-page middle">
+				<h2 className="logo-font big-font">Treasurely</h2>
 
-				<div className="login-card">
+				<div className="card">
 					<FormControl
-						className="login-input"
+						className="field-default"
 						placeholder="Game Code"
 						value={gameCode}
 						onChange={handleGameCodeChange}
 					/>
 					<Button
-						className="login-button"
+						className="button-default"
 						onClick={validateGameCode}
 					>
 						Join
