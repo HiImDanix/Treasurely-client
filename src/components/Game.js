@@ -8,8 +8,6 @@ import Answer from "./Answer";
 import Mission from "./Mission";
 
 const Game = (props) => {
-	let isGameLoopRunning = true;
-
 	// States that the game can be in
 	const AVAILABLE_GAME_STATUSES = {
 		NOT_STARTED: "NOT_STARTED",
@@ -21,10 +19,7 @@ const Game = (props) => {
 
 	// Game state
 	const [game, setGame] = useState({
-		id: null,
-		code: null,
 		status: AVAILABLE_GAME_STATUSES.JOINING,
-		players: null
 	});
 
 	const playerSessionID = props.sessionID;
@@ -36,6 +31,8 @@ const Game = (props) => {
 	};
 
 	const [currentView, setCurrentView] = useState(AVAILABLE_VIEWS.CONTENT);
+
+	console.log("Render");
 
 
 	// Tell API to start the game
@@ -55,14 +52,9 @@ const Game = (props) => {
 		})
 	}
 
-	// Run only once
+	// Run game loop
 	useEffect(() => {
-		executeGameLoop()
-	}, []);
-
-	// Retrieve information about the current game, in a recursive loop
-	const executeGameLoop = async () => {
-		async function gameLoop() {
+		const interval = setInterval(async () => {
 			let response = await fetch(`${PLAYERS_URL}/${playerSessionID}/game`);
 
 			if (response.status === 502) {
@@ -74,18 +66,17 @@ const Game = (props) => {
 			} else {
 				// update local game state
 				let data = await response.json();
+
 				console.log(data)
-				setGame(data);
+
+				if (JSON.stringify(data) !== JSON.stringify(game)) {
+					setGame(data);
+				}
 			}
-		}
+		}, 1000); // 1000 ms 
 
-		const delay = ms => new Promise(r => setTimeout(r, ms));
-
-		while (isGameLoopRunning) {
-			await delay(1000);
-			await gameLoop();
-		}
-	};
+		return () => clearInterval(interval);
+	}, [game]);
 
 	const getPlayersList = () => {
 		return (
@@ -122,11 +113,11 @@ const Game = (props) => {
 				return (
 					<>
 						<div className="mt-2 task card-container">
-								<Answer
-									player_session_id={playerSessionID}
-									gameID={game.id}
-									cameraToggleCallback={() => {alert("Camera view toggled")}}
-								/>
+							<Answer
+								player_session_id={playerSessionID}
+								gameID={game.id}
+								cameraToggleCallback={() => {alert("Camera view toggled")}}
+							/>
 						</div>
 						<div className="mt-4 card-container">
 							<h1>Missions</h1>
@@ -151,7 +142,7 @@ const Game = (props) => {
 				)
 			case AVAILABLE_GAME_STATUSES.JOINING:
 				return (
-					<h1 className='name'>Joining...</h1>
+					<h2 className='name joining'>Joining...</h2>
 				)
 		}
 	}
