@@ -54,7 +54,7 @@ const Game = (props) => {
 
 	// Run game loop
 	useEffect(() => {
-		const interval = setInterval(async () => {
+		const interval = setInterval(async function run() {
 			let response = await fetch(`${PLAYERS_URL}/${playerSessionID}/game`);
 
 			if (response.status === 502) {
@@ -73,7 +73,10 @@ const Game = (props) => {
 					setGame(data);
 				}
 			}
-		}, 1000); // 1000 ms 
+
+			// Return the function run to the interval after it ran once
+			return run;
+		}(), 1000); // 1000 ms 
 
 		return () => clearInterval(interval);
 	}, [game]);
