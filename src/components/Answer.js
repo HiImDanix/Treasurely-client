@@ -11,34 +11,6 @@ const Answer = (props) => {
 		setValue(event.target.value);
 	};
 
-	const handleAnswer = async () => {
-
-		await fetch(`${GAMES_URL}/${props.gameID}/submit?
-			${new URLSearchParams({qr_code: value, player_session_id: props.player_session_id})}`,
-			{
-				method: "POST"
-			}
-		).then(async response => {
-			console.log(response);
-
-			if (response.ok) {
-				const resp = await response.text();
-
-				if (resp === "true") {
-					alert("Correct!");
-				} else {
-					alert("Wrong");
-				}
-
-			} else {
-				alert("Error. Already answered or could not submit.");
-			}
-
-		}).catch(error => {
-			console.log(error);
-		})
-	};
-
 	return (
 		<>
 			<h1 className="mb-4">Found a code?</h1>
@@ -51,7 +23,7 @@ const Answer = (props) => {
 				/>
 				<i className="bi bi-camera-fill task-camera-btn" onClick={props.cameraToggleCallback}></i>
 			</div>
-			<Button className="task-btn" onClick={handleAnswer}>
+			<Button className="task-btn" onClick={(v) => props.handleAnswer(v)}>
 				Appraise
 			</Button>
 		</>

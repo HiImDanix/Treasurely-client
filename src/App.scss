@@ -207,26 +207,7 @@ $navbar-height: 60px;
 	margin-left: 10px;
 }
 
-.camera {
-	display: flex;
-	max-width: calc(100% - 20px);
-	align-items: center;
-	position: fixed;
-	top: 50%;
-	right: -45px;
-	transform: translateY(-50%);
-	transition: 0.3s;
-	color: white;
-	font-size: 2rem;
-	z-index: 1000;
-}
-
-.camera:hover {
-	right: -5px;
-	transition: 0.3s;
-}
-
-.cursor {
+.task-icon {
 	font-size: 1.6rem;
 	background-color: $primary;
 	text-align: center;
@@ -235,35 +216,7 @@ $navbar-height: 60px;
 	border-radius: 50%;
 }
 
-.camera-button {
-	display: flex;
-	color: white;
-	font-size: 2rem; 
-	background-color: $primary;
-	padding: 10px;
-	padding-left: 0px;
-	z-index: 1001;
-}
 
-.camera-reader {
-	max-width: 100%;
-	width: 400px;
-	padding: 20px;
-	margin-left: -10px;
-	background-color: lighten($color: $background-color-lighter, $amount: 5);
-	border-radius: 10px;
-}
-
-.camera-reader:after {
-	position: absolute;
-	content: "";
-	width: 150px;
-	height: 150px;
-	border-radius: 10px;
-	border: 2px solid rgba($color: white, $alpha: 0.5);
-	transform: translate(-50%, -50%);
-	top: 50%;
-}
 
 .task-camera-btn {
 	position:absolute;
@@ -289,3 +242,5 @@ $navbar-height: 60px;
 	justify-content: center;
 	align-items: center;
 }
+
+// CAMERA view

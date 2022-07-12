@@ -27,15 +27,13 @@ const Game = (props) => {
 		players: null
 	});
 
-	const playerSessionID = props.sessionID;
-
 	// VIEWS
 	const AVAILABLE_VIEWS = {
 		CAMERA: "CAMERA",
-		CONTENT: "CONTENT"
+		GAME_CONTENT: "GAME_CONTENT",
 	};
 
-	const [currentView, setCurrentView] = useState(AVAILABLE_VIEWS.CONTENT);
+	const [currentView, setCurrentView] = useState(AVAILABLE_VIEWS.GAME_CONTENT);
 
 
 	// Tell API to start the game
@@ -55,6 +53,32 @@ const Game = (props) => {
 		})
 	}
 
+	const handleAnswer = async (value) => {
+
+		await fetch(`${GAMES_URL}/${game.id}/submit?
+			${new URLSearchParams({qr_code: value, player_session_id: props.sessionID})}`,
+			{ method: "POST" }
+			).then(async response => {
+				console.log(response);
+
+				if (response.ok) {
+					const resp = await response.text();
+
+					if (resp === "true") {
+						alert("Correct!");
+					} else {
+						alert("Wrong");
+					}
+
+				} else {
+					alert("Error. Already answered or could not submit.");
+				}
+
+		}).catch(error => {
+			console.log(error);
+		})
+	};
+
 	// Run only once
 	useEffect(() => {
 		executeGameLoop()
@@ -63,7 +87,7 @@ const Game = (props) => {
 	// Retrieve information about the current game, in a recursive loop
 	const executeGameLoop = async () => {
 		async function gameLoop() {
-			let response = await fetch(`${PLAYERS_URL}/${playerSessionID}/game`);
+			let response = await fetch(`${PLAYERS_URL}/${props.sessionID}/game`);
 
 			if (response.status === 502) {
 				console.log("Server error");
@@ -82,6 +106,7 @@ const Game = (props) => {
 		const delay = ms => new Promise(r => setTimeout(r, ms));
 
 		while (isGameLoopRunning) {
+			console.log(props.username);
 			await delay(1000);
 			await gameLoop();
 		}
@@ -123,9 +148,10 @@ const Game = (props) => {
 					<>
 						<div className="mt-2 task card-container">
 								<Answer
-									player_session_id={playerSessionID}
+									player_session_id={props.sessionID}
 									gameID={game.id}
-									cameraToggleCallback={() => {alert("Camera view toggled")}}
+									cameraToggleCallback={() => {setCurrentView(AVAILABLE_VIEWS.CAMERA)}}
+									handleAnswer={handleAnswer}
 								/>
 						</div>
 						<div className="mt-4 card-container">
@@ -156,17 +182,14 @@ const Game = (props) => {
 		}
 	}
 
-	const getCameraView = () => {
-		return (
-			<Camera />
-		)
-	}
-
 	const getGameView = () => {
 		switch (currentView) {
 			case AVAILABLE_VIEWS.CAMERA:
-				return getCameraView();
-			case AVAILABLE_VIEWS.CONTENT:
+				return <Camera
+					handleAnswer={handleAnswer}
+					goBack={() => setCurrentView(AVAILABLE_VIEWS.GAME_CONTENT)}
+				/>
+			case AVAILABLE_VIEWS.GAME_CONTENT:
 				return (
 					<Container className="game-container">
 						{getPageBody()}
