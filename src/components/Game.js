@@ -54,26 +54,34 @@ const Game = (props) => {
 
 	// Run game loop
 	useEffect(() => {
-		const interval = setInterval(async () => {
-			let response = await fetch(`${PLAYERS_URL}/${playerSessionID}/game`);
+		const interval = setInterval(function run() {
 
-			if (response.status === 502) {
-				console.log("Server error");
-				// Status 502 is a connection timeout error
-			} else if (response.status !== 200) {
-				// An error - let's show it
-				console.log(response.statusText);
-			} else {
-				// update local game state
-				let data = await response.json();
+			// Has to be a nested function because run cannot be async
+			async function updateGame(){
+				let response = await fetch(`${PLAYERS_URL}/${playerSessionID}/game`);
 
-				console.log(data)
+				if (response.status === 502) {
+					console.log("Server error");
+					// Status 502 is a connection timeout error
+				} else if (response.status !== 200) {
+					// An error - let's show it
+					console.log(response.statusText);
+				} else {
+					// update local game state
+					let data = await response.json();
 
-				if (JSON.stringify(data) !== JSON.stringify(game)) {
-					setGame(data);
+					console.log(data)
+
+					if (JSON.stringify(data) !== JSON.stringify(game)) {
+						setGame(data);
+					}
 				}
 			}
-		}, 1000); // 1000 ms 
+
+			updateGame();
+
+			return run;
+		}(), 1000); // 1000 ms 
 
 		return () => clearInterval(interval);
 	}, [game]);
