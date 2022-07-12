@@ -106,34 +106,33 @@ const Game = (props) => {
 			case AVAILABLE_GAME_STATUSES.NOT_STARTED:
 				return (
 					(
-						<div className="game-players">
+						<div className="center">
 							<h2>Players:</h2>
 							{getPlayersList()}
 							<Button
-								className="white"
 								onClick={handleStartGameButton}
-								style={{margin: "30px"}}
+								style={{color: "white", margin: "30px"}}
 							>Start game</Button>
 						</div>
 					)
 				)
 			case AVAILABLE_GAME_STATUSES.IN_PROGRESS:
 				return (
-					<>
-						<div className="mt-2 task card-container">
+					<div className='center game-container'>
+						<div className="mt-2 answer-container">
 							<Answer
 								player_session_id={playerSessionID}
 								gameID={game.id}
 								cameraToggleCallback={() => {alert("Camera view toggled")}}
 							/>
 						</div>
-						<div className="mt-4 card-container">
+						<div className="mt-4 mission-container">
 							<h1>Missions</h1>
 							<Mission text={"Enjoy the view of the iceberg from the favourite lookout. Enjoy the view of the iceberg from the favourite lookout."}/>
 
 							<Mission text={"Find the missing leg for 'big bug'"}/>
 						</div>
-					</>
+					</div>
 
 				)
 			case AVAILABLE_GAME_STATUSES.PAUSED:

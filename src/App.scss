@@ -1,10 +1,10 @@
 // Google fonts
 @import url(https://fonts.googleapis.com/css2?family=Righteous&family=Yellowtail&display=swap);
 @import url('https://fonts.googleapis.com/css2?family=Open+Sans&display=swap');
+
 // Colors
-$background-color:  #282c34;
-$background-color: #14161a;
-$background-color-lighter: #1e2126;
+$background-color-darker: #14161a;
+$background-color: #1e2126;
 $primary: #ff6004;
 $card-color: #edf0f7;
 
@@ -12,63 +12,69 @@ $theme-colors: (
 	"primary": $primary,
 );
 
-
-// Font Variables
-$Righteous: "Righteous";
-
 // Bootstrap
 @import "~bootstrap/scss/bootstrap";
 
+// Others
 $navbar-height: 60px;
 
-.App {
-	text-align: center;
+
+/*
+ * General
+ */
+body {
 	background-color: $background-color;
+}
+
+.App {
+	color: white;
 	font-family: 'Open Sans', sans-serif;
 }
 
-.white {
-	color: white;
+.card {
+	margin: 0 auto;
+	gap: 10px;
+	max-width: 300px;
+	height: min-content;
+	padding: 10px;
+	border-radius: 5px;
+	background-color: $card-color;
 }
 
-.nav {
-	max-height: $navbar-height;
-	background-color: darken($color: $background-color-lighter, $amount: 3);
-}
-
-.nav a {
-	color: white !important;
-}
-
-.login-page, .game, .name {
+.center {
 	box-sizing: border-box;
-	min-height: 100vh;
-	color: white;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	min-height: calc(100vh - (2 * $navbar-height));
+	margin-top: $navbar-height;
 }
 
-.App-link {
-	color: #61dafb;
+.logo-font {
+	font-family: 'Righteous';
 }
 
-.task-btn {
+.big-font {
+	font-size: 2.6rem;
+}
+
+/*
+ * Buttons
+ */
+.button-default {
 	width: 100%;
-	color: white;
 	border-radius: 3px;
-	font-size: 1.2rem;
-	margin-top: 12px;
-}
-
-
-.login-button, .name-button, .task-checkButton {
 	color: white;
-	border-radius: 3px;
 	font-size: 1.2rem;
 	font-weight: bold;
 	cursor: pointer;
-	width: 100%;
 }
 
-.login-input, .name-input, .task-field {
+/*
+ * Fields
+ */
+.field-default {
 	width: 100%;
 	height: 40px;
 	border-radius: 3px;
@@ -78,90 +84,74 @@ $navbar-height: 60px;
 	border: 2px solid #D3D3D3;
 }
 
-.task-input {
+/*
+ * Components
+ */
+
+// Navbar
+.nav {
+	position: fixed;
+	top: 0;
+	z-index: 100;
 	width: 100%;
-	position:relative;
+	max-height: $navbar-height;
+	background-color: $background-color-darker;
 }
 
-.login-card, .name-card {
-	margin: 0 auto;
-	max-width: 300px;
-	height: min-content;
-	padding: 10px;
-	border-radius: 5px;
-	background-color: $card-color;
+.nav a, .nav h2 {
+	color: white !important;
 }
 
-.login-page, .name-enter, .name {
-	color: white;
-	margin-top: 0;
-	letter-spacing: 2px;
-	font-size: 2.6rem;
+.nav h2 {
+	font-size: 2.5rem;
 }
 
-.login-page, .name-enter, .name {
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	justify-content: center;
-}
-
+// Login
 .login-page {
+	letter-spacing: 2px;
+	background-color: $background-color-darker;
 	background-repeat: no-repeat;
 	background-position: bottom 50px right 50px;
 	background-size: cover;
 	background-image: url('./images/background.svg');
+	min-height: 100vh;
+	margin: 0;
 }
 
-.name {
-	background-color: $background-color-lighter;
-	min-height: calc(100vh - $navbar-height);
+// Game
+
+.game-container {
+	max-width: 600px;
 }
 
-.nav-logo {
-	font-size: 2.5rem;
-	color: white;
-}
-
-.login-logo {
-	font-size: 2.6rem;
-}
-
-.logo, .login-logo {
-	font-family: $Righteous;
-}
-
-.game-players {
-	margin: 20px;
-	margin-left: auto;
-	margin-right: auto;
-}
-
+// player
 .players-list {
-	display: grid;
+	display: flex;
+	width: 70%;
+	align-items: center;
 	font-size: 1.5rem;
-	grid-template: auto auto / repeat(3, 1fr);
+	gap: 40px;
+	justify-content: center;
+	flex-wrap: wrap;
 	margin-top: 30px;
 	margin-bottom: 40px;
 }
 
 .player {
+	flex-basis: 30%;
+	animation-name: appear;
+	animation-duration: 0.3s;
 	position: relative;
 	background-color: $primary;
 	padding: 10px;
-	width: min-content;
-	height: min-content;
-	margin: 10px;
 	margin-left: auto;
 	margin-right: auto;
+	min-width: 70px;
+	max-width: min-content;
+	height: min-content;
 	border-radius: 5px;
 	overflow: hidden;
 	opacity: 0.9;
-}
-
-.player-name {
-	margin: 0px;
-	z-index: 1;
 }
 
 .player-emoji {
@@ -172,29 +162,32 @@ $navbar-height: 60px;
 	color: $background-color;
 	transform: translate(-50%, -50%);
 	top: 70%;
-	left: 70%;
+	right: -36px;
 	z-index: -1;
 	opacity: 0.2;
 }
 
-.card-container {
-	max-width: 600px;
-	margin-left: auto;
-	margin-right: auto;
-	width:100%;
+.player-name {
+	margin: 0px;
+	z-index: 1;
+	text-align: center;
+}
+
+// mission
+.mission-container {
+	display: flex;
+	gap: 20px;
+	align-items: center;
+	flex-direction: column;
 }
 
 .mission-card {
+	width: 100%;
 	display: flex;
 	align-items: center;
-	background-color: lighten($color: $background-color-lighter, $amount: 5);
-	margin: 20px auto 0 auto;
+	background-color: lighten($color: $background-color, $amount: 5);
 	padding: 15px 5px 15px 15px;
 	cursor: pointer;
-}
-
-.game {
-	background-color: $background-color-lighter;
 }
 
 .mission-chevron {
@@ -207,6 +200,59 @@ $navbar-height: 60px;
 	margin-left: 10px;
 }
 
+.mission-icon {
+	font-size: 1.6rem;
+	background-color: $primary;
+	text-align: center;
+	min-width: 50px;
+	line-height: 50px;
+	border-radius: 50%;
+}
+
+// joining
+.joining {
+	font-weight: bold;
+	position: absolute;
+	transform: translate(-50%, -50%);
+	top: 50%;
+	left: 50%;
+}
+
+.answer-container {
+	width: 100%;
+}
+
+// Answer
+.answer {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 10px;
+	width: 100%;
+}
+
+.answer-camera-btn {
+	position: absolute;
+	padding-left: 20px;
+	padding-right: 20px;
+	font-size: 1.8rem;
+	opacity: 0.8;
+	color: black;
+	right: -1px;
+	bottom: -1px;
+}
+
+.answer-camera-btn:hover {
+	opacity: 1;
+	cursor: pointer;
+}
+
+.answer-input {
+	width: 100%;
+	position: relative;
+}
+
+// Camera
 .camera {
 	display: flex;
 	max-width: calc(100% - 20px);
@@ -226,15 +272,6 @@ $navbar-height: 60px;
 	transition: 0.3s;
 }
 
-.cursor {
-	font-size: 1.6rem;
-	background-color: $primary;
-	text-align: center;
-	min-width: 50px;
-	line-height: 50px;
-	border-radius: 50%;
-}
-
 .camera-button {
 	display: flex;
 	color: white;
@@ -250,7 +287,7 @@ $navbar-height: 60px;
 	width: 400px;
 	padding: 20px;
 	margin-left: -10px;
-	background-color: lighten($color: $background-color-lighter, $amount: 5);
+	background-color: lighten($color: $background-color, $amount: 5);
 	border-radius: 10px;
 }
 
@@ -265,35 +302,11 @@ $navbar-height: 60px;
 	top: 50%;
 }
 
-.task-camera-btn {
-	position:absolute;
-	padding-left:20px;
-	padding-right:20px;
-	font-size:1.8rem;
-	opacity:0.8;
-	color:black;
-	right:-1px;
-	bottom:-1px;
-}
-
-.task-camera-btn:hover {
-	opacity:1;
-	cursor:pointer;
-}
-
-.game-container {
-	padding: 10px;
-	display: flex;
-	flex-wrap: wrap;
-	flex-direction: column;
-	justify-content: center;
-	align-items: center;
-}
-
-.joining {
-	font-weight: bold;
-	position: absolute;
-	transform: translate(-50%, -50%);
-	top: 50%;
-	left: 50%;
+/*
+ * Keyframes
+ */
+@keyframes appear {
+	0% {
+		transform: scale(50%, 0);
+	}
 }

@@ -37,18 +37,18 @@ const JoinGame = (props) => {
 	}
 
 	return (
-		<div className="name">
+		<div className="center">
 			<h1 className="name-title">What shall we call you?</h1>
 
-			<div className="name-card">
+			<div className="card">
 				<FormControl
-					className="name-input"
+					className="field-default"
 					value={name}
 					onChange={handleChange}
 					placeholder={"Nickname"}
 				/>
 				<Button 
-					className="name-button" 
+					className="button-default" 
 					onClick={joinGame}
 				>
 					Let's go!
