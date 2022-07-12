@@ -142,7 +142,7 @@ const Game = (props) => {
 				)
 			case AVAILABLE_GAME_STATUSES.JOINING:
 				return (
-					<h2 className='name joining'>Joining...</h2>
+					<h1 className='joining'>Joining...</h1>
 				)
 		}
 	}
