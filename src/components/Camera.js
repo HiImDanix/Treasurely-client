@@ -18,11 +18,11 @@ const Camera = (props) => {
 	}, []);
 
 	return (
-		<div className="game-container">
-			<Button variant="primary" className="w-100" onClick={props.goBack}>
+		<div className="center camera">
+			<Button variant="primary" className="button-default" onClick={props.goBack}>
 				Go Back
 			</Button>
-			<div className="camera">
+			<div className="camera-reader">
 				<div id="reader"></div>
 			</div>
 		</div>

@@ -65,7 +65,7 @@ const Login = (props) => {
 
 	const getGameCodeView = () => {
 		return (
-			<div className="login-page middle">
+			<div className="login-page center">
 				<h2 className="logo-font big-font">Treasurely</h2>
 
 				<div className="card">

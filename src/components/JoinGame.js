@@ -37,7 +37,7 @@ const JoinGame = (props) => {
 	}
 
 	return (
-		<div className="middle game-container">
+		<div className="center">
 			<h1 className="name-title">What shall we call you?</h1>
 
 			<div className="card">

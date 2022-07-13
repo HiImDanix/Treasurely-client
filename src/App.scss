@@ -41,6 +41,18 @@ body {
 	background-color: $card-color;
 }
 
+.center {
+	box-sizing: border-box;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	min-height: calc(100vh - (2 * $navbar-height));
+	margin-top: $navbar-height;
+	margin-left: auto;
+	margin-right: auto;
+}
+
 .logo-font {
 	font-family: 'Righteous';
 }
@@ -108,21 +120,9 @@ body {
 	margin: 0;
 }
 
-.middle {
-	box-sizing: border-box;
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	justify-content: center;
-}
-
 // Game
-
 .game-container {
 	max-width: 600px;
-	min-height: calc(100vh - (2 * $navbar-height));
-	padding-top:60px; // Due to fixed navbar
-	margin: 0 auto;
 }
 
 // player
@@ -254,6 +254,16 @@ body {
 }
 
 // Camera
+.camera {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 10px;
+}
+
+.camera-reader {
+	width: 100%;
+}
 
 
 /*
@@ -265,4 +275,3 @@ body {
 	}
 }
 
-// CAMERA view

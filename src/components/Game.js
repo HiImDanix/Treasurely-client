@@ -1,11 +1,11 @@
 import {useEffect, useState} from 'react';
-import {Container} from 'react-bootstrap';
 import Button from "react-bootstrap/Button";
 import {GAMES_URL, PLAYERS_URL, GAME_START_PATH} from "../Api";
 import Camera from "./Camera";
 import Nav from "./Nav";
 import Answer from "./Answer";
 import Mission from "./Mission";
+import { Container } from 'react-bootstrap';
 
 const Game = (props) => {
 	// States that the game can be in
@@ -128,7 +128,7 @@ const Game = (props) => {
 			case AVAILABLE_GAME_STATUSES.NOT_STARTED:
 				return (
 					(
-						<div>
+						<div className="center">
 							<h2>Players:</h2>
 							{getPlayersList()}
 							<Button
@@ -140,7 +140,7 @@ const Game = (props) => {
 				)
 			case AVAILABLE_GAME_STATUSES.IN_PROGRESS:
 				return (
-					<>
+					<div className="center">
 						<div className="mt-2 answer-container">
 							<Answer
 								player_session_id={props.sessionID}
@@ -155,8 +155,7 @@ const Game = (props) => {
 
 							<Mission text={"Find the missing leg for 'big bug'"}/>
 						</div>
-					</>
-
+					</div>
 				)
 			case AVAILABLE_GAME_STATUSES.PAUSED:
 				return (
@@ -172,7 +171,7 @@ const Game = (props) => {
 				)
 			case AVAILABLE_GAME_STATUSES.JOINING:
 				return (
-					<h1 className='joining'>Joining...</h1>
+					<h1 className="joining">Joining...</h1>
 				)
 		}
 	}
@@ -186,19 +185,20 @@ const Game = (props) => {
 				/>
 			case AVAILABLE_VIEWS.GAME_CONTENT:
 				return (
-					<Container className="game-container">
+					<>
 						{getPageBody()}
-					</Container>
+					</>
 				)
 		}
 	}
 
 	return (
-		<>
-
+		<div className="game">
 			<Nav leaveGame={props.leaveGame} />
-			{getGameView()}
-		</>
+			<Container className="game-container">
+				{getGameView()}
+			</Container>
+		</div>
 	)
 }
 
