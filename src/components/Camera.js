@@ -1,6 +1,6 @@
-import {useEffect, useRef, useState} from "react";
-import Button from "react-bootstrap/Button";
-import {Html5QrcodeScanner} from "html5-qrcode"
+import {Html5QrcodeScanner} from "html5-qrcode";
+import {useEffect} from "react";
+import { QrReader } from "react-qr-reader";
 
 const Camera = (props) => {
 
@@ -13,18 +13,33 @@ const Camera = (props) => {
 		let html5QrcodeScanner = new Html5QrcodeScanner(
 			"reader",
 			{ fps: 10, qrbox: {width: 250, height: 250} },
-			/* verbose= */ false);
-		html5QrcodeScanner.render(submitAnswer, /* verbose= */ false);
+			false);
+		html5QrcodeScanner.render(submitAnswer, false);
+
+		return () => html5QrcodeScanner.clear();
 	}, []);
 
 	return (
-		<div className="center camera">
-			<Button variant="primary" className="button-default" onClick={props.goBack}>
-				Go Back
-			</Button>
-			<div className="camera-reader">
-				<div id="reader"></div>
-			</div>
+		<div className="center-tab camera" style={ {animationName: props.animation} }>
+			<div id="reader" className="camera-reader"></div>
+			{/*
+			<QrReader 
+				className="camera-reader"
+				videoStyle={{
+					objectFit: "cover",
+					borderRadius: "10px"
+				}}
+				onResult={(result, error) => {
+					if (!!result) {
+						console.log(result)
+					}
+				}}
+			/>
+
+*/}
+			<button className="camera-input">
+				<i className="bi bi-alt"></i>
+			</button>
 		</div>
 	)
 }

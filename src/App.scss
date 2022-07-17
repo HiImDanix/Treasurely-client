@@ -17,6 +17,8 @@ $theme-colors: (
 
 // Others
 $navbar-height: 60px;
+$tab-height: 80px;
+$tab-camera-offset: -40px;
 
 
 /*
@@ -51,6 +53,11 @@ body {
 	margin-top: $navbar-height;
 	margin-left: auto;
 	margin-right: auto;
+}
+
+.center-tab {
+	min-height: calc(100vh - (($navbar-height) + ($tab-height - $tab-camera-offset)));
+	margin-bottom: calc($tab-height - $tab-camera-offset);
 }
 
 .logo-font {
@@ -98,6 +105,8 @@ body {
 	width: 100%;
 	max-height: $navbar-height;
 	background-color: $background-color-darker;
+	animation-name: slide;
+	animation-duration: 0.3s;
 }
 
 .nav a, .nav h2 {
@@ -106,6 +115,17 @@ body {
 
 .nav h2 {
 	font-size: 2.5rem;
+}
+
+.nav-LeaveButton {
+	display: flex;
+	gap: 5px;
+}
+
+.nav-LeaveButton:hover {
+	animation-name: wiggle;
+	animation-duration: 1s;
+	animation-iteration-count: infinite;
 }
 
 // Login
@@ -180,6 +200,7 @@ body {
 	gap: 20px;
 	align-items: center;
 	flex-direction: column;
+	width: 100%;
 }
 
 .mission-card {
@@ -255,23 +276,145 @@ body {
 
 // Camera
 .camera {
+	padding-top: 10px;
+	position: fixed;
 	display: flex;
 	flex-direction: column;
+	gap: 20px;
 	align-items: center;
-	gap: 10px;
+	transform: translateX(-50%);
+	left: 50%;
+	width: 100%;
+	background: linear-gradient($background-color-darker, $background-color);
+	animation-name: float;
+	animation-duration: 0.5s;
 }
 
 .camera-reader {
+	min-height: calc(100vh - (($navbar-height * 3) + ($tab-height - $tab-camera-offset)));
+	width: 400px;
+}
+
+.camera-input {
+	border: none;
+	width: 60px;
+	height: 60px;
+	border-radius: 50%;
+	background-color: transparent;
+	color: white;
+	font-size: 2rem;
+}
+
+// Tab
+.tab {
+	position: fixed;
+	bottom: 0;
+	left: 0;
+	display: flex;
+	align-items: center;
+	background-color: $background-color-darker;
+	justify-content: center;
+	gap: var(--tab-gap);
 	width: 100%;
+	height: $tab-height;
+}
+
+.tab-camera {
+	position: relative;
+	background-color: $primary!important;
+	margin-top: $tab-camera-offset!important;
+	transition: 0.3s;
+	border-radius: 50%;
+	overflow: hidden;
+}
+
+.tab-camera:hover {
+	transition: 0.3s;
+}
+
+.tab-camera-icons {
+	position: absolute;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	top: -5px;
+	left: 50%;
+	padding: 10px;
+	transform: translateX(-50%);
+	transition: 0.3s;
+}
+
+.tab-camera-icons:hover {
+	top: -53px;
+	transition: 0.3s;
+}
+
+.tab button {
+	background: transparent;
+	font-size: 2rem;
+	width: var(--button-width);
+	height: 60px;
+	color: white;
+	border: none;
+	border-radius: 50%;
+}
+
+.tab-selected {
+	background-color: $background-color;
+	border-radius: 30px;
+	width: var(--button-width);
+	height: 60px;
+	position: absolute;
+	transform: translateX(-50%);
+	z-index: -1;
+	transition: 0.3s;
+	animation-name: stretch;
+	animation-duration: 0.3s;
 }
 
 
 /*
  * Keyframes
  */
+@keyframes stretch {
+	50% {
+		width: 100px;
+		height: 40px;
+	}
+}
+
 @keyframes appear {
 	0% {
 		transform: scale(50%, 0);
 	}
 }
 
+@keyframes slide {
+	0% {
+		transform: scale(100%, 0%);
+		max-height: 0;
+		margin-top: -$navbar-height;
+	}
+}
+
+@keyframes wiggle {
+	0% {
+		gap: 5px;
+	}
+	30% {
+		gap: 10px;
+	}
+}
+
+@keyframes float {
+	0% {
+		margin-top: calc(100vh - $tab-height - $navbar-height);
+	}
+}
+
+
+@keyframes unfloat {
+	100% {
+		margin-top: calc(100vh - $tab-height - $navbar-height);
+	}
+}

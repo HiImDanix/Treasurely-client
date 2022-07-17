@@ -2,7 +2,6 @@ import {useState} from "react";
 import Button from "react-bootstrap/Button";
 import FormControl from "react-bootstrap/FormControl";
 import {GAMES_URL } from "../Api";
-import Nav from "./Nav";
 
 const JoinGame = (props) => {
 	const [name, setName] = useState("");

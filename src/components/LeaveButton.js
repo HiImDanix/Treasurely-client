@@ -5,8 +5,8 @@ const LeaveButton = (props) => {
 	return (
 		<div>
 			<Navbar.Text>
-				<Link onClick={props.handleClick} className={"link-light"} to="/">
-					<i className="me-2 bi bi-box-arrow-left"></i>
+				<Link onClick={props.handleClick} className="link-light nav-LeaveButton" to="/">
+					<i className="bi bi-box-arrow-left"></i>
 					Leave
 				</Link>
 			</Navbar.Text>

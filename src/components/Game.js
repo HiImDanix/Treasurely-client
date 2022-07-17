@@ -6,6 +6,7 @@ import Nav from "./Nav";
 import Answer from "./Answer";
 import Mission from "./Mission";
 import { Container } from 'react-bootstrap';
+import Tab from './Tab';
 
 const Game = (props) => {
 	// States that the game can be in
@@ -22,13 +23,38 @@ const Game = (props) => {
 		status: AVAILABLE_GAME_STATUSES.JOINING,
 	});
 
+	// Camera states
+	const [camera, setCamera] = useState(false);
+	const [cameraAnimation, setCameraAnimation] = useState("float");
+
+	const toggleCamera = () => {
+		if (camera) {
+			hideCamera();
+		} else {
+			setCameraAnimation("float");
+			setCamera(true);
+		}
+	}
+
+	const hideCamera = async () => {
+		setCameraAnimation("unfloat");
+		await new Promise(r => setTimeout(r, 300));
+		setCamera(false);
+	}
+
 	// VIEWS
 	const AVAILABLE_VIEWS = {
-		CAMERA: "CAMERA",
-		GAME_CONTENT: "GAME_CONTENT",
+		INFO: "0",
+		HOME: "1",
+		PLAYERS: "3",
+		SETTINGS: "4"
 	};
 
-	const [currentView, setCurrentView] = useState(AVAILABLE_VIEWS.GAME_CONTENT);
+	const [currentView, setCurrentView] = useState(AVAILABLE_VIEWS.INFO);
+
+	useEffect(() => {
+		hideCamera();
+	}, [currentView]);
 
 	console.log("Render");
 
@@ -140,21 +166,20 @@ const Game = (props) => {
 				)
 			case AVAILABLE_GAME_STATUSES.IN_PROGRESS:
 				return (
-					<div className="center">
-						<div className="mt-2 answer-container">
-							<Answer
-								player_session_id={props.sessionID}
-								gameID={game.id}
-								cameraToggleCallback={() => {setCurrentView(AVAILABLE_VIEWS.CAMERA)}}
-								handleAnswer={handleAnswer}
+					<div>
+						{
+							camera && <Camera 
+								animation={cameraAnimation}
 							/>
-						</div>
-						<div className="mt-4 mission-container">
-							<h1>Missions</h1>
-							<Mission text={"Enjoy the view of the iceberg from the favourite lookout. Enjoy the view of the iceberg from the favourite lookout."}/>
-
-							<Mission text={"Find the missing leg for 'big bug'"}/>
-						</div>
+						}
+						{getGameView()}
+						<Tab 
+							toggleCamera={toggleCamera}
+							camera={camera}
+							currentView={currentView}
+							setCurrentView={(view) => setCurrentView(view)}
+							AVAILABLE_VIEWS={AVAILABLE_VIEWS}
+						/>
 					</div>
 				)
 			case AVAILABLE_GAME_STATUSES.PAUSED:
@@ -178,16 +203,36 @@ const Game = (props) => {
 
 	const getGameView = () => {
 		switch (currentView) {
-			case AVAILABLE_VIEWS.CAMERA:
-				return <Camera
-					handleAnswer={handleAnswer}
-					goBack={() => setCurrentView(AVAILABLE_VIEWS.GAME_CONTENT)}
-				/>
-			case AVAILABLE_VIEWS.GAME_CONTENT:
+			case AVAILABLE_VIEWS.INFO:
 				return (
-					<>
-						{getPageBody()}
-					</>
+					<p className='center center-tab'>info</p>
+				)
+			case AVAILABLE_VIEWS.HOME:
+				return (
+					<div className="center center-tab">
+						{/*
+						<div className="mt-2 answer-container">
+							<Answer
+								player_session_id={props.sessionID}
+								gameID={game.id}
+								cameraToggleCallback={() => {setCurrentView(AVAILABLE_VIEWS.CAMERA)}}
+								handleAnswer={handleAnswer}
+							/>
+						</div>
+						*/}
+						<div className="mt-4 mission-container">
+							<h1>Missions</h1>
+							{game.missions.map((mission, missionId) => <Mission key={missionId} text={mission.description}/>)}
+						</div>
+					</div>
+				)
+			case AVAILABLE_VIEWS.PLAYERS:
+				return (
+					<p className='center center-tab'>players</p>
+				)
+			case AVAILABLE_VIEWS.SETTINGS:
+				return (
+					<p className='center center-tab'>settings</p>
 				)
 		}
 	}
@@ -196,7 +241,7 @@ const Game = (props) => {
 		<div className="game">
 			<Nav leaveGame={props.leaveGame} />
 			<Container className="game-container">
-				{getGameView()}
+				{getPageBody()}
 			</Container>
 		</div>
 	)
