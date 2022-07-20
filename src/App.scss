@@ -105,7 +105,6 @@ body {
 	width: 100%;
 	max-height: $navbar-height;
 	background-color: $background-color-darker;
-	animation-name: slide;
 	animation-duration: 0.3s;
 }
 
@@ -194,12 +193,43 @@ body {
 	text-align: center;
 }
 
-// mission
+// joining
+.joining {
+	font-weight: bold;
+	position: absolute;
+	transform: translate(-50%, -50%);
+	top: 50%;
+	left: 50%;
+}
+
+.answer-container {
+	width: 100%;
+}
+
+// MissionContainer 
+.mission-status {
+	display: flex;
+	width: 100%;
+	color: darken($color: white, $amount: 5);
+}
+
+.mission-status-points {
+	margin-left: auto;
+}
+
 .mission-container {
 	display: flex;
-	gap: 20px;
 	align-items: center;
 	flex-direction: column;
+	width: 100%;
+	margin-top: $navbar-height;
+	padding-top: 20px;
+}
+
+.missions {
+	display: flex;
+	flex-direction: column;
+	gap: 20px;
 	width: 100%;
 }
 
@@ -229,19 +259,6 @@ body {
 	min-width: 50px;
 	line-height: 50px;
 	border-radius: 50%;
-}
-
-// joining
-.joining {
-	font-weight: bold;
-	position: absolute;
-	transform: translate(-50%, -50%);
-	top: 50%;
-	left: 50%;
-}
-
-.answer-container {
-	width: 100%;
 }
 
 // Answer
@@ -415,6 +432,6 @@ body {
 
 @keyframes unfloat {
 	100% {
-		margin-top: calc(100vh - $tab-height - $navbar-height);
+		margin-top: calc(100vh - $tab-height );
 	}
 }

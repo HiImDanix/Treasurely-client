@@ -3,8 +3,7 @@ import Button from "react-bootstrap/Button";
 import {GAMES_URL, PLAYERS_URL, GAME_START_PATH} from "../Api";
 import Camera from "./Camera";
 import Nav from "./Nav";
-import Answer from "./Answer";
-import Mission from "./Mission";
+import MissionContainer from './MissionContainer';
 import { Container } from 'react-bootstrap';
 import Tab from './Tab';
 
@@ -139,9 +138,9 @@ const Game = (props) => {
 			<div className="players-list">
 				{game.players.map((player, playerID) => {
 					return (
-						<div className='player' key={playerID}>
+						<div className="player" key={playerID}>
 							<i className="bi bi-emoji-laughing player-emoji"></i>
-							<p className='player-name'>{player.name}</p>
+							<p className="player-name">{player.name}</p>
 						</div>
 					)
 				})}
@@ -170,6 +169,7 @@ const Game = (props) => {
 						{
 							camera && <Camera 
 								animation={cameraAnimation}
+								handleAnswer={handleAnswer}
 							/>
 						}
 						{getGameView()}
@@ -177,7 +177,7 @@ const Game = (props) => {
 							toggleCamera={toggleCamera}
 							camera={camera}
 							currentView={currentView}
-							setCurrentView={(view) => setCurrentView(view)}
+							setCurrentView={setCurrentView}
 							AVAILABLE_VIEWS={AVAILABLE_VIEWS}
 						/>
 					</div>
@@ -205,41 +205,26 @@ const Game = (props) => {
 		switch (currentView) {
 			case AVAILABLE_VIEWS.INFO:
 				return (
-					<p className='center center-tab'>info</p>
+					<p className="center center-tab">info</p>
 				)
 			case AVAILABLE_VIEWS.HOME:
 				return (
-					<div className="center center-tab">
-						{/*
-						<div className="mt-2 answer-container">
-							<Answer
-								player_session_id={props.sessionID}
-								gameID={game.id}
-								cameraToggleCallback={() => {setCurrentView(AVAILABLE_VIEWS.CAMERA)}}
-								handleAnswer={handleAnswer}
-							/>
-						</div>
-						*/}
-						<div className="mt-4 mission-container">
-							<h1>Missions</h1>
-							{game.missions.map((mission, missionId) => <Mission key={missionId} text={mission.description}/>)}
-						</div>
-					</div>
+					<MissionContainer missions={game.missions}/>
 				)
 			case AVAILABLE_VIEWS.PLAYERS:
 				return (
-					<p className='center center-tab'>players</p>
+					<p className="center center-tab">players</p>
 				)
 			case AVAILABLE_VIEWS.SETTINGS:
 				return (
-					<p className='center center-tab'>settings</p>
+					<p className="center center-tab">settings</p>
 				)
 		}
 	}
 
 	return (
 		<div className="game">
-			<Nav leaveGame={props.leaveGame} />
+			<Nav leaveGame={props.leaveGame} animationName={"none"}/>
 			<Container className="game-container">
 				{getPageBody()}
 			</Container>

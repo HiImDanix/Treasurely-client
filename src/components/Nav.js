@@ -4,7 +4,7 @@ import LeaveButton from './LeaveButton';
 
 const Nav = (props) => {
 	return (
-		<Navbar className="nav">
+		<Navbar className="nav" style={ {animationName: props.animationName} }>
 			<Container>
 				<Navbar.Brand style={{cursor: "default"}}>
 					<h2 className="logo-font">Treasurely</h2>

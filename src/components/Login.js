@@ -95,7 +95,7 @@ const Login = (props) => {
 		case LoginStatus.USERNAME:
 			return (
 				<div>
-					<Nav leaveGame={() => setLoginStatus(LoginStatus.GAME_CODE)} />
+					<Nav animationName={"slide"} leaveGame={() => setLoginStatus(LoginStatus.GAME_CODE)} />
 					<JoinGame
 						gameCode={gameCode}
 						gameID={gameID}

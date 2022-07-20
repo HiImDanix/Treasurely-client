@@ -38,7 +38,7 @@ const Camera = (props) => {
 
 */}
 			<button className="camera-input">
-				<i className="bi bi-alt"></i>
+				<i className="bi bi-keyboard-fill"></i>
 			</button>
 		</div>
 	)
