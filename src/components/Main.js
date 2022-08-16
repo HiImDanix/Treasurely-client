@@ -31,13 +31,11 @@ const Main = () => {
 
 	if (username === "") {
 		return (
-			<div>
-				<Login 
-					setUsername={(username) => setUsername(username)} 
-					setSessionID={(sessionID) => setSessionID(sessionID)} 
-					leaveGame={leaveGame}
-				/>
-			</div>
+			<Login 
+				setUsername={(username) => setUsername(username)} 
+				setSessionID={(sessionID) => setSessionID(sessionID)} 
+				leaveGame={leaveGame}
+			/>
 		)
 	} else {
 		return (

@@ -1,11 +1,13 @@
 import {useEffect, useState} from 'react';
+import {Container} from 'react-bootstrap';
 import Button from "react-bootstrap/Button";
-import {GAMES_URL, PLAYERS_URL, GAME_START_PATH} from "../Api";
+import {GAMES_URL, GAME_START_PATH, PLAYERS_URL} from "../Api";
 import Camera from "./Camera";
-import Nav from "./Nav";
 import MissionContainer from './MissionContainer';
-import { Container } from 'react-bootstrap';
+import Nav from "./Nav";
+import PlayerContainer from './PlayerContainer';
 import Tab from './Tab';
+
 
 const Game = (props) => {
 	// States that the game can be in
@@ -138,7 +140,11 @@ const Game = (props) => {
 			<div className="players-list">
 				{game.players.map((player, playerID) => {
 					return (
-						<div className="player" key={playerID}>
+						<div 
+							className="player" 
+							key={playerID} 
+							style={player.name === props.username ? {borderLeft: "4px solid white"} : {}}
+						>
 							<i className="bi bi-emoji-laughing player-emoji"></i>
 							<p className="player-name">{player.name}</p>
 						</div>
@@ -154,7 +160,7 @@ const Game = (props) => {
 				return (
 					(
 						<div className="center">
-							<h2>Players:</h2>
+							<h2>Players</h2>
 							{getPlayersList()}
 							<Button
 								onClick={handleStartGameButton}
@@ -213,7 +219,7 @@ const Game = (props) => {
 				)
 			case AVAILABLE_VIEWS.PLAYERS:
 				return (
-					<p className="center center-tab">players</p>
+					<PlayerContainer players={game.players} missions={game.missions}/>
 				)
 			case AVAILABLE_VIEWS.SETTINGS:
 				return (

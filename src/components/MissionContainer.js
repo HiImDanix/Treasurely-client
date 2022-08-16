@@ -2,7 +2,7 @@ import Mission from "./Mission";
 
 const MissionContainer = (props) => {
 	return (
-			<div className="mission-container center-tab">
+			<div className="content-container center-tab">
 				<h1>Missions</h1>
 				<div className="mission-status">
 					<i className="bi bi-check2"></i>

@@ -28,6 +28,24 @@ body {
 	background-color: $background-color;
 }
 
+/* width */
+::-webkit-scrollbar {
+  width: 10px;
+	height: 10px;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background-color: #777777; 
+  border-radius: 10px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background-color: #aaaaaa; 
+	transition-duration: 1s;
+}
+
 .App {
 	color: white;
 	font-family: 'Open Sans', sans-serif;
@@ -66,6 +84,17 @@ body {
 
 .big-font {
 	font-size: 2.6rem;
+}
+
+.content-container {
+	display: flex;
+	align-items: center;
+	flex-direction: column;
+	width: 100%;
+	margin-top: $navbar-height;
+	padding-top: 20px;
+	text-align: center;
+	gap: 10px;
 }
 
 /*
@@ -217,14 +246,6 @@ body {
 	margin-left: auto;
 }
 
-.mission-container {
-	display: flex;
-	align-items: center;
-	flex-direction: column;
-	width: 100%;
-	margin-top: $navbar-height;
-	padding-top: 20px;
-}
 
 .missions {
 	display: flex;
@@ -305,6 +326,7 @@ body {
 	background: linear-gradient($background-color-darker, $background-color);
 	animation-name: float;
 	animation-duration: 0.5s;
+	z-index: 100;
 }
 
 .camera-reader {
@@ -334,6 +356,7 @@ body {
 	gap: var(--tab-gap);
 	width: 100%;
 	height: $tab-height;
+	z-index: 200;
 }
 
 .tab-camera {
@@ -387,6 +410,78 @@ body {
 	transition: 0.3s;
 	animation-name: stretch;
 	animation-duration: 0.3s;
+}
+
+/*
+ * Leaderboard
+ */
+.leaderboard-team {
+	display: flex;
+	gap: 10px;
+	width: 100%;
+}
+
+.leaderboard-teams {
+	max-height: 200px;
+	overflow-y: auto;
+}
+
+.leaderboard-team-points {
+	margin-left: auto;
+	margin-right: 5px;
+}
+
+/*
+ * Groups
+ */
+.groups {
+	display: flex;
+	gap: 10px;
+	overflow-x: auto;
+}
+
+/*
+ * Group
+ */
+.group {
+	display: flex;
+	flex-direction: column;
+	min-width: 200px;
+	background-color: lighten($color: $background-color, $amount: 5);
+	gap: 5px;
+}
+
+.group-image {
+	width: 100%;
+	min-height: 100px;
+	line-height: 100px;
+	font-size: 3rem;
+	background-color: lighten($color: $background-color, $amount: 10);
+}
+
+.group-info {
+	display: flex;
+	flex-direction: column;
+	margin: 10px;
+	margin-top: 0;
+}
+
+.group-players {
+	display: flex;
+	font-size: 1.1rem;
+}
+
+.group-playerNumber {
+	margin-left: auto;
+	display: flex;
+}
+
+.group-missions {
+	display: flex;
+}
+
+.group p {
+	margin: 0;
 }
 
 
